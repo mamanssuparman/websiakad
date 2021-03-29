@@ -381,4 +381,27 @@ class Modeldata extends CI_Model
     {
         return $this->db->get('pegawai');
     }
+
+    // Management
+    public function get_data_role()
+    {
+        return $this->db->get('role');
+    }
+    public function simpan_role()
+    {
+        $isidata=array(
+            'nama_role'         =>$this->input->post('role',TRUE),
+        );
+        $this->db->insert('role',$isidata);
+    }
+    public function update_role()
+    {
+        $id=$this->input->post('id_role',TRUE);
+        $isidata=array(
+            'nama_role'         =>$this->input->post('role',TRUE),
+        );
+        $this->db->set($isidata);
+        $this->db->where('id_role',$id);
+        $this->db->update('role');
+    }
 }

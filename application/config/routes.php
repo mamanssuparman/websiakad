@@ -34,3 +34,10 @@ $route['Program-Keahlian/Edit/(:num)']              ='Admin/Edit_program_keahlia
 $route['Program-keahlian/Update']                   ='Admin/Update_program_keahlian';
 // Pegawai
 $route['Pegawai']                                   ='Admin/Pegawai';
+$route['Pegawai/Save']                              ='Admin/Savepegawai';
+
+// Management
+$route['Role']                                      ='Admin/Role';
+$route['Role/Simpan']                               ='Admin/Save_role';
+$route['Role/Get_id_role_edit/(:num)']              ='Admin/Get_id_role_edit/$1';
+$route['Role/Update']                               ='Admin/Update_role';

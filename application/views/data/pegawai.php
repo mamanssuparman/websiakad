@@ -13,7 +13,7 @@ if ($this->session->flashdata('pesan')) {
             </div>
             <div class="x_content">
                 <br />
-                <form class="form-horizontal form-label-left" action="<?php echo base_url() ?>Profil/Save" method="POST">
+                <form class="form-horizontal form-label-left" action="<?php echo base_url() ?>Pegawai/Save" method="POST">
                     <div class="form-group row">
                         <label class="control-label col-md-3 col-sm-3 col-xs-3">NIP</label>
                         <div class="col-md-9 col-sm-9 col-xs-9">
@@ -53,9 +53,9 @@ if ($this->session->flashdata('pesan')) {
                     <div class="form-group row">
                         <label class="control-label col-md-3 col-sm-3 col-xs-3">Pendidikan Terakhir</label>
                         <div class="col-md-9 col-sm-9 col-xs-9">
-                            <input type="date" class="form-control" name="tgl_lahir" value="<?php echo set_value('tgl_lahir') ?>">
+                            <input type="date" class="form-control" name="pend_terakhir" value="<?php echo set_value('pend_terakhir') ?>">
                             <span>
-                                <font color="red"><?php echo form_error('tgl_lahir') ?></font>
+                                <font color="red"><?php echo form_error('pend_terakhir') ?></font>
                             </span>
                         </div>
                     </div>
@@ -68,25 +68,67 @@ if ($this->session->flashdata('pesan')) {
                             </span>
                         </div>
                     </div>
-
-
                     <div class="form-group row">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-3">NUPTK</label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-3">Pendidikan Terakhir</label>
                         <div class="col-md-9 col-sm-9 col-xs-9">
-                            <textarea name="isi" id="" cols="30" rows="10" class="ckeditor"><?php set_value('isi') ?></textarea>
-                            <span>
-                                <font color="red"><?php echo form_error('isi') ?></font>
-                            </span>
+                            <select name="pend_terakhir" id="pend_terakhir" class="form-control">
+                                <option value="SMP">SMP</option>
+                                <option value="SMA">SMA</option>
+                                <option value="SMK">SMK</option>
+                                <option value="D1">D1</option>
+                                <option value="D3">D3</option>
+                                <option value="S1">S1</option>
+                                <option value="S2">S2</option>
+                                <option value="S3">S3</option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-3">Status Terbit</label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-3">Pangkat</label>
                         <div class="col-md-9 col-sm-9 col-xs-9">
-                            <select name="status_terbit" class="form-control">
-                                <option value="ya">Terbitkan</option>
-                                <option value="tidak">Tidak Terbitkan</option>
-                            </select>
+                            <input type="text" name="pangkat" id="pangkat" class="form-control" value="<?php echo set_value('pangkat') ?>">
                         </div>
+                        <span>
+                            <font color="red"><?php echo form_error('pangkat') ?></font>
+                        </span>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-3">Golongan</label>
+                        <div class="col-md-9 col-sm-9 col-xs-9">
+                            <input type="text" name="golongan" id="golongan" class="form-control" value="<?php echo set_value('golongan') ?>">
+                        </div>
+                        <span>
+                            <font color="red"><?php echo form_error('golongan') ?></font>
+                        </span>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-3">Username</label>
+                        <div class="col-md-9 col-sm-9 col-xs-9">
+                            <input type="text" name="username" id="username" class="form-control" value="<?php echo set_value('username') ?>">
+                        </div>
+                        <span>
+                            <font color="red"><?php echo form_error('username') ?></font>
+                        </span>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-3">Password</label>
+                        <div class="col-md-9 col-sm-9 col-xs-9">
+                            <input type="password" name="password" id="password" class="form-control" value="<?php echo set_value('password') ?>">
+                        </div>
+                        <!--  -->
+                        <span>
+                            <font color="red"></font>
+                        </span>
+                        <span>
+                            <font color="red"><?php echo form_error('password') ?></font>
+                        </span>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-3">Photo</label>
+                        <div class="col-md-9 col-sm-9 col-xs-9">
+                            <input type="file" name="foto" id="foto" class="form-control">
+                        </div>
+                        
                     </div>
                     <div class="form-group row">
                         <div class="col-md-9 offset-md-3">

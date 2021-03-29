@@ -50,6 +50,12 @@
                     <li><a href="page_404.html">managemen Sub Menu</a></li>
                 </ul> -->
             </li>
+            <li><a href="<?php echo base_url() ?>Role"><i class="fa fa-tasks"></i> Role </a>
+                <!-- <ul class="nav child_menu">
+                    <li><a href="page_403.html">Managemen Menu</a></li>
+                    <li><a href="page_404.html">managemen Sub Menu</a></li>
+                </ul> -->
+            </li>
             <li><a><i class="fa fa-tasks"></i> Managemen Sub Menu </a>
                 <!-- <ul class="nav child_menu">
                     <li><a href="page_403.html">Managemen Menu</a></li>

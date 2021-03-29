@@ -285,4 +285,61 @@ class Admin extends CI_Controller
 		$data['data_pegawai']				= $this->Modeldata->get_data_pegawai()->result();
 		$this->template->load('admin_template/halaman_master', 'data/pegawai', $data);
 	}
+	public function Savepegawai()
+	{
+
+		$this->form_validation->set_rules('nama', 'nama', 'required', array('required' => 'Nama Pegawai tidak boleh kosong', 'is_unique' => 'Nama profil Jurusan sudah ada di dalam data, mohon di cek kembali'));
+		$this->form_validation->set_rules('jk', 'jk', 'required', array('required' => 'Jenis kelamin belum di pilih'));
+		$this->form_validation->set_rules('nama', 'nama', 'required', array('required' => 'Nama Pegawai tidak boleh kosong', 'is_unique' => 'Nama profil Jurusan sudah ada di dalam data, mohon di cek kembali'));
+		
+		if ($this->form_validation->run() == TRUE) {
+			// Jika berhasil 
+			$this->Modeldata->simpan_proju();
+			$this->session->set_flashdata('pesan', 'Data Profil Jurusan berhasil di simpan.!');
+			redirect('Proju');
+		} else {
+			// Jika Gagal
+			$data['data_proju']			= $this->Modeldata->get_data_proju()->result();	
+			$this->template->load('admin_template/halaman_master', 'data/proju', $data);
+		}
+	}
+	// Management
+	public function Role()
+	{
+		$data['data_role']				= $this->Modeldata->get_data_role()->result();
+		$this->template->load('admin_template/halaman_master', 'management/role', $data);
+	}
+	public function Save_role()
+	{
+		$this->form_validation->set_rules('role','role','required');
+		if ($this->form_validation->run()== TRUE) {
+			// Jika berhasil simpan
+			$this->Modeldata->simpan_role();
+			$this->session->set_flashdata('pesan','Data Role berhasil di simpan');
+			redirect('Role');
+		}else{
+			$this->session->set_flashdata('pesan','Data Role tidak berhasil di simpan, Mohon di cek kembali.');
+			redirect('Role');
+		}
+	}
+	public function Get_id_role_edit($id=null)
+	{
+		$query = $this->db->get_where('role', array('id_role' => $id))->row();
+		echo json_encode($query);
+	}
+	public function Update_role()
+	{
+		$this->form_validation->set_rules('id_role','id_role','required');
+		$this->form_validation->set_rules('role','role','required');
+		// Validasi berhasil
+		if ($this->form_validation->run()== TRUE) {
+			$this->Modeldata->update_role();
+			$this->session->set_flashdata('pesan','Data Role berhasil di perbaharui.');
+			redirect('Role');
+		}else{
+			// Validasi gagal
+			$this->session->set_flashdata('pesan','Data Role gagal di perbaharui');
+			redirect('Role');
+		}
+	}
 }
