@@ -103,7 +103,7 @@ class Admin extends CI_Controller
 			$this->template->load('admin_template/halaman_master', 'data/profil', $data);
 		}
 	}
-	public function Get_id_profil_hapus($id=null)
+	public function Get_id_profil_hapus($id = null)
 	{
 		$query = $this->db->get_where('profil', array('id_profil' => $id))->row();
 		echo json_encode($query);
@@ -126,7 +126,7 @@ class Admin extends CI_Controller
 			}
 		}
 	}
-	public function Edit_profil($id=null)
+	public function Edit_profil($id = null)
 	{
 		$data['data_profil_edit']		= $this->Modeldata->get_profil_by_id($id)->result();
 		$data['data_profil']			= $this->Modeldata->get_data_profil()->result();
@@ -168,7 +168,7 @@ class Admin extends CI_Controller
 			$this->template->load('admin_template/halaman_master', 'data/proju', $data);
 		}
 	}
-	public function Get_id_proju_hapus($id=null)
+	public function Get_id_proju_hapus($id = null)
 	{
 		$query = $this->db->get_where('proju', array('id_proju' => $id))->row();
 		echo json_encode($query);
@@ -191,7 +191,7 @@ class Admin extends CI_Controller
 			}
 		}
 	}
-	public function Edit_proju($id=null)
+	public function Edit_proju($id = null)
 	{
 		$data['data_proju_edit']		= $this->Modeldata->get_proju_by_id($id)->result();
 		$data['data_proju']				= $this->Modeldata->get_data_proju()->result();
@@ -199,7 +199,7 @@ class Admin extends CI_Controller
 	}
 	public function Update_proju()
 	{
-		$id_proju=$this->input->post('id_proju','id_proju','required');
+		$id_proju = $this->input->post('id_proju', 'id_proju', 'required');
 		$this->form_validation->set_rules('nama_proju', 'nama_proju', 'required', array('required' => 'Nama Profil Jurusan tidak boleh kosong'));
 		$this->form_validation->set_rules('deskripsi', 'deskripsi', 'required', array('required' => 'Isi Profil tidak boleh kosong'));
 		if ($this->form_validation->run() == TRUE) {
@@ -234,7 +234,7 @@ class Admin extends CI_Controller
 			$this->template->load('admin_template/halaman_master', 'data/program_keahlian', $data);
 		}
 	}
-	public function Get_id_program_keahlian_hapus($id=null)
+	public function Get_id_program_keahlian_hapus($id = null)
 	{
 		$query = $this->db->get_where('programkeahlian', array('id_program_keahlian' => $id))->row();
 		echo json_encode($query);
@@ -257,7 +257,7 @@ class Admin extends CI_Controller
 			}
 		}
 	}
-	public function Edit_program_keahlian($id=null)
+	public function Edit_program_keahlian($id = null)
 	{
 		$data['data_program_keahlian_edit']		= $this->Modeldata->get_data_program_keahlian_by_id($id)->result();
 		$data['data_program_keahlian']			= $this->Modeldata->get_data_program_keahlian()->result();
@@ -269,7 +269,7 @@ class Admin extends CI_Controller
 		$this->form_validation->set_rules('deskripsi', 'deskripsi', 'required', array('required' => 'Deskripsi tidak boleh kosong'));
 		if ($this->form_validation->run() == TRUE) {
 			// Jika berhasil 
-			$id=$this->input->post('id_program_keahlian',TRUE);
+			$id = $this->input->post('id_program_keahlian', TRUE);
 			$this->Modeldata->update_program_keahlian($id);
 			$this->session->set_flashdata('pesan', 'Data Program Keahlian berhasil di simpan.!');
 			redirect('Program-Keahlian');
@@ -283,6 +283,7 @@ class Admin extends CI_Controller
 	public function Pegawai()
 	{
 		$data['data_pegawai']				= $this->Modeldata->get_data_pegawai()->result();
+		$data['data_role']					= $this->Modeldata->get_data_role()->result();
 		$this->template->load('admin_template/halaman_master', 'data/pegawai', $data);
 	}
 	public function Savepegawai()
@@ -291,16 +292,52 @@ class Admin extends CI_Controller
 		$this->form_validation->set_rules('nama', 'nama', 'required', array('required' => 'Nama Pegawai tidak boleh kosong', 'is_unique' => 'Nama profil Jurusan sudah ada di dalam data, mohon di cek kembali'));
 		$this->form_validation->set_rules('jk', 'jk', 'required', array('required' => 'Jenis kelamin belum di pilih'));
 		$this->form_validation->set_rules('nama', 'nama', 'required', array('required' => 'Nama Pegawai tidak boleh kosong', 'is_unique' => 'Nama profil Jurusan sudah ada di dalam data, mohon di cek kembali'));
-		
+		$this->form_validation->set_rules('pangkat', 'pangkat', 'htmlspecialchars', array('htmlspecialchars' => 'Masukkan data dengan benar'));
+		$this->form_validation->set_rules('golongan', 'golongan', 'htmlspecialchars', array('htmlspecialchars' => 'Masukkan data dengan benar'));
+		$this->form_validation->set_rules('username', 'username', 'required|is_unique[pegawai.username]', array('required' => 'Username tidak boleh kosong.', 'is_unique' => 'Username sudah terdaftar, mohon di cek kembali'));
+		// $this->form_validation->set_rules('password', 'password', 'required', array('required' => 'Password tidak boleh kosong.!'));
+		$this->form_validation->set_rules('tgl_lahir', 'tgl_lahir', 'required', array('required' => 'Tanggal lahir belum di isi.!'));
+
 		if ($this->form_validation->run() == TRUE) {
 			// Jika berhasil 
-			$this->Modeldata->simpan_proju();
-			$this->session->set_flashdata('pesan', 'Data Profil Jurusan berhasil di simpan.!');
-			redirect('Proju');
+			$foto = $_FILES['foto']['name'];
+			// Pengkondisian Foto 
+			if (!empty($foto)) {
+				$acak = rand(1000, 9999);
+				$string = preg_replace('/[^a-zA-Z0-9 &%|{.}=,?!*()"-_+$@;<>]/', '', $this->input->post('nama', TRUE));
+				$trim = trim($string);
+				$pre_slug = strtolower(str_replace(" ", "-", $trim));
+				$slug = $acak . '-pegawai-' . $pre_slug . '.html';
+				$foto1 = $acak . '-images-' . md5($acak) . '.jpg';
+				$config['upload_path']		= './uploads';
+				$config['allowed_types']	= 'jpg';
+				$config['max_size']			= 1024;
+				$config['file_name']		= $foto1;
+				$this->load->library('upload', $config);
+				if (!$this->upload->do_upload('foto')) {
+					$this->session->set_flashdata('pesan', 'Data gambar tidak sesuai.!!');
+					redirect('Pegawai/');
+				} else {
+					$this->Modeldata->Simpan_pegawai_foto('pegawai', $foto1, $slug);
+					$this->session->set_flashdata('pesan', 'Data pegawai berhasil di simpan.!');
+					redirect('Pegawai/');
+				}
+				// Pengkondisian jika fotonya terisi
+			} else {
+				$acak = rand(1000, 9999);
+				$string = preg_replace('/[^a-zA-Z0-9 &%|{.}=,?!*()"-_+$@;<>]/', '', $this->input->post('nama', TRUE));
+				$trim = trim($string);
+				$pre_slug = strtolower(str_replace(" ", "-", $trim));
+				$slug1 = $acak . '-pegawai-' . $pre_slug . '.html';
+				$this->Modeldata->Simpan_pegawai_nofoto('pegawai', 'default.jpg', $slug1);
+				$this->session->set_flashdata('pesan', 'Data pegawai berhasil di simpan.!');
+				redirect('Pegawai/');
+			}
 		} else {
 			// Jika Gagal
-			$data['data_proju']			= $this->Modeldata->get_data_proju()->result();	
-			$this->template->load('admin_template/halaman_master', 'data/proju', $data);
+			$data['data_pegawai']				= $this->Modeldata->get_data_pegawai()->result();
+			$data['data_role']					= $this->Modeldata->get_data_role()->result();
+			$this->template->load('admin_template/halaman_master', 'data/pegawai', $data);
 		}
 	}
 	// Management
@@ -311,34 +348,34 @@ class Admin extends CI_Controller
 	}
 	public function Save_role()
 	{
-		$this->form_validation->set_rules('role','role','required');
-		if ($this->form_validation->run()== TRUE) {
+		$this->form_validation->set_rules('role', 'role', 'required');
+		if ($this->form_validation->run() == TRUE) {
 			// Jika berhasil simpan
 			$this->Modeldata->simpan_role();
-			$this->session->set_flashdata('pesan','Data Role berhasil di simpan');
+			$this->session->set_flashdata('pesan', 'Data Role berhasil di simpan');
 			redirect('Role');
-		}else{
-			$this->session->set_flashdata('pesan','Data Role tidak berhasil di simpan, Mohon di cek kembali.');
+		} else {
+			$this->session->set_flashdata('pesan', 'Data Role tidak berhasil di simpan, Mohon di cek kembali.');
 			redirect('Role');
 		}
 	}
-	public function Get_id_role_edit($id=null)
+	public function Get_id_role_edit($id = null)
 	{
 		$query = $this->db->get_where('role', array('id_role' => $id))->row();
 		echo json_encode($query);
 	}
 	public function Update_role()
 	{
-		$this->form_validation->set_rules('id_role','id_role','required');
-		$this->form_validation->set_rules('role','role','required');
+		$this->form_validation->set_rules('id_role', 'id_role', 'required');
+		$this->form_validation->set_rules('role', 'role', 'required');
 		// Validasi berhasil
-		if ($this->form_validation->run()== TRUE) {
+		if ($this->form_validation->run() == TRUE) {
 			$this->Modeldata->update_role();
-			$this->session->set_flashdata('pesan','Data Role berhasil di perbaharui.');
+			$this->session->set_flashdata('pesan', 'Data Role berhasil di perbaharui.');
 			redirect('Role');
-		}else{
+		} else {
 			// Validasi gagal
-			$this->session->set_flashdata('pesan','Data Role gagal di perbaharui');
+			$this->session->set_flashdata('pesan', 'Data Role gagal di perbaharui');
 			redirect('Role');
 		}
 	}

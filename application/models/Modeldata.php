@@ -381,7 +381,61 @@ class Modeldata extends CI_Model
     {
         return $this->db->get('pegawai');
     }
+    public function Simpan_pegawai_foto($tabel,$foto,$slug)
+    {
+        // $acak = rand(1000, 9999);
+        // $string = preg_replace('/[^a-zA-Z0-9 &%|{.}=,?!*()"-_+$@;<>]/', '', $this->input->post('nama', TRUE));
+        // $trim = trim($string);
+        // $pre_slug = strtolower(str_replace(" ", "-", $trim));
+        // $slug = $acak . '-' . $pre_slug . '.html';
+        // $this->db->where('slug', $slug);
+        // $query = $this->db->get('proju');
 
+        $isidata=array(
+            'nip'       =>$this->input->post('nip',TRUE),
+            'nuptk'     =>$this->input->post('nuptk',TRUE),
+            'nama'      =>$this->input->post('nama',TRUE),
+            'jk'        =>$this->input->post('jk',TRUE),
+            'tgl_lahir' =>$this->input->post('tgl_lahir',TRUE),
+            'pend_terakhir' =>$this->input->post('pend_terakhir',TRUE),
+            'jabatan'       =>$this->input->post('jabatan',TRUE),
+            'pangkat'       =>$this->input->post('pangkat',TRUE),
+            'golongan'      =>$this->input->post('golongan',TRUE),
+            'slug'          =>$slug,
+            'foto'          =>$foto,
+            'username'      =>$this->input->post('username',TRUE),
+            'pasword'       =>$this->input->post('password',TRUE),
+            'id_role'       =>$this->input->post('role',TRUE),
+        );
+		// var_dump($isidata);
+        $this->db->insert($tabel,$isidata);
+    }
+    public function Simpan_pegawai_nofoto($tabel,$foto,$slug)
+    {
+        $cekpassword=$this->input->post('password',TRUE);
+        if (empty($cekpassword)) {
+            $isipassword=password_hash('123456',PASSWORD_DEFAULT);
+        }else{
+            $isipassword=password_hash($cekpassword,PASSWORD_DEFAULT);
+        }
+        $isidata=array(
+            'nip'       =>$this->input->post('nip',TRUE),
+            'nuptk'     =>$this->input->post('nuptk',TRUE),
+            'nama'      =>$this->input->post('nama',TRUE),
+            'jk'        =>$this->input->post('jk',TRUE),
+            'tgl_lahir' =>$this->input->post('tgl_lahir',TRUE),
+            'pend_terakhir' =>$this->input->post('pend_terakhir',TRUE),
+            'jabatan'       =>$this->input->post('jabatan',TRUE),
+            'pangkat'       =>$this->input->post('pangkat',TRUE),
+            'golongan'      =>$this->input->post('golongan',TRUE),
+            'slug'          =>$slug,
+            'foto'          =>$foto,
+            'username'      =>$this->input->post('username',TRUE),
+            'pasword'       =>$isipassword,
+            'id_role'       =>$this->input->post('role',TRUE),
+        );
+        $this->db->insert($tabel,$isidata);
+    }
     // Management
     public function get_data_role()
     {

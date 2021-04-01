@@ -77,7 +77,7 @@ if ($this->session->flashdata('pesan')) {
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">
-                    <li class="fa fa-warning"></li> Add Role
+                    <li class="fa fa-warning"></li> Update Role
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span></button>

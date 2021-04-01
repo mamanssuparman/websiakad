@@ -13,7 +13,7 @@ if ($this->session->flashdata('pesan')) {
             </div>
             <div class="x_content">
                 <br />
-                <form class="form-horizontal form-label-left" action="<?php echo base_url() ?>Pegawai/Save" method="POST">
+                <form class="form-horizontal form-label-left" action="<?php echo base_url() ?>Pegawai/Save" method="POST" enctype="multipart/form-data">
                     <div class="form-group row">
                         <label class="control-label col-md-3 col-sm-3 col-xs-3">NIP</label>
                         <div class="col-md-9 col-sm-9 col-xs-9">
@@ -47,15 +47,6 @@ if ($this->session->flashdata('pesan')) {
                             <input type="radio" name="jk" value="L" class="flat"> Laki-laki <input type="radio" name="jk" value="L" class="flat"> Perempuan
                             <span>
                                 <font color="red"><?php echo form_error('jk') ?></font>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-3">Pendidikan Terakhir</label>
-                        <div class="col-md-9 col-sm-9 col-xs-9">
-                            <input type="date" class="form-control" name="pend_terakhir" value="<?php echo set_value('pend_terakhir') ?>">
-                            <span>
-                                <font color="red"><?php echo form_error('pend_terakhir') ?></font>
                             </span>
                         </div>
                     </div>
@@ -102,33 +93,63 @@ if ($this->session->flashdata('pesan')) {
                         </span>
                     </div>
                     <div class="form-group row">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-3">Jabatan</label>
+                        <div class="col-md-9 col-sm-9 col-xs-9">
+                            <select name="jabatan" id="jabatan" class="form-control">
+                                <option value="Guru">Guru</option>
+                                <option value="Kepala Sekolah">Kepala Sekolah</option>
+                                <option value="Staff TU">Staff TU</option>
+                                <option value="Penjaga">Penjaga</option>
+                                <option value="Tool Man">Tool Man</option>
+                            </select>
+                            <span>
+                                <font color="red"><?php echo form_error('jabatan') ?></font>
+                            </span>
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
                         <label class="control-label col-md-3 col-sm-3 col-xs-3">Username</label>
                         <div class="col-md-9 col-sm-9 col-xs-9">
                             <input type="text" name="username" id="username" class="form-control" value="<?php echo set_value('username') ?>">
+                            <span>
+                                <font color="red"><?php echo form_error('username') ?></font>
+                            </span>
                         </div>
-                        <span>
-                            <font color="red"><?php echo form_error('username') ?></font>
-                        </span>
                     </div>
                     <div class="form-group row">
                         <label class="control-label col-md-3 col-sm-3 col-xs-3">Password</label>
                         <div class="col-md-9 col-sm-9 col-xs-9">
                             <input type="password" name="password" id="password" class="form-control" value="<?php echo set_value('password') ?>">
+                            <span>
+                                <font color="black"><i>Kosongkan jika password di isi dengan default</i></font>
+                            </span>
+                            <span>
+                                <font color="red"><?php echo form_error('password') ?></font>
+                            </span>
                         </div>
                         <!--  -->
-                        <span>
-                            <font color="red"></font>
-                        </span>
-                        <span>
-                            <font color="red"><?php echo form_error('password') ?></font>
-                        </span>
+
+
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-3">Akses</label>
+                        <div class="col-md-9 col-sm-9 col-xs-9">
+                            <select name="role" id="role" class="form-control">
+                                <?php
+                                foreach ($data_role as $tampilkan_role) {
+                                    echo "<option value='$tampilkan_role->id_role'>$tampilkan_role->nama_role</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
                     </div>
                     <div class="form-group row">
                         <label class="control-label col-md-3 col-sm-3 col-xs-3">Photo</label>
                         <div class="col-md-9 col-sm-9 col-xs-9">
                             <input type="file" name="foto" id="foto" class="form-control">
                         </div>
-                        
+
                     </div>
                     <div class="form-group row">
                         <div class="col-md-9 offset-md-3">
