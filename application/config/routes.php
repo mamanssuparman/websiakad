@@ -35,6 +35,7 @@ $route['Program-keahlian/Update']                   ='Admin/Update_program_keahl
 // Pegawai
 $route['Pegawai']                                   ='Admin/Pegawai';
 $route['Pegawai/Save']                              ='Admin/Savepegawai';
+$route['Pegawai/Detail/(:any)/(:num)']              ='Admin/Detail_pegawai/$2/$1';
 // Management
 $route['Role']                                      ='Admin/Role';
 $route['Role/Simpan']                               ='Admin/Save_role';

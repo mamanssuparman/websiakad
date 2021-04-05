@@ -381,6 +381,10 @@ class Modeldata extends CI_Model
     {
         return $this->db->get('pegawai');
     }
+    public function get_data_pegawai_by_id($id)
+    {
+        return $this->db->get_where('pegawai',array('id_user'=>$id));
+    }
     public function Simpan_pegawai_foto($tabel,$foto,$slug)
     {
         // $acak = rand(1000, 9999);

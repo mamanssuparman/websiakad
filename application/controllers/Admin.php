@@ -288,7 +288,8 @@ class Admin extends CI_Controller
 	}
 	public function Savepegawai()
 	{
-
+		$this->form_validation->set_rules('nip', 'nip', 'required', array('required' => 'NIP tidak boleh kosong, jika dikosongkan di isi dengan "-"'));
+		$this->form_validation->set_rules('nuptk', 'nuptk', 'required', array('required' => 'NUPTK tidak boleh kosong, jika dikosongkan di isi dengan "-"'));
 		$this->form_validation->set_rules('nama', 'nama', 'required', array('required' => 'Nama Pegawai tidak boleh kosong', 'is_unique' => 'Nama profil Jurusan sudah ada di dalam data, mohon di cek kembali'));
 		$this->form_validation->set_rules('jk', 'jk', 'required', array('required' => 'Jenis kelamin belum di pilih'));
 		$this->form_validation->set_rules('nama', 'nama', 'required', array('required' => 'Nama Pegawai tidak boleh kosong', 'is_unique' => 'Nama profil Jurusan sudah ada di dalam data, mohon di cek kembali'));
@@ -297,7 +298,6 @@ class Admin extends CI_Controller
 		$this->form_validation->set_rules('username', 'username', 'required|is_unique[pegawai.username]', array('required' => 'Username tidak boleh kosong.', 'is_unique' => 'Username sudah terdaftar, mohon di cek kembali'));
 		// $this->form_validation->set_rules('password', 'password', 'required', array('required' => 'Password tidak boleh kosong.!'));
 		$this->form_validation->set_rules('tgl_lahir', 'tgl_lahir', 'required', array('required' => 'Tanggal lahir belum di isi.!'));
-
 		if ($this->form_validation->run() == TRUE) {
 			// Jika berhasil 
 			$foto = $_FILES['foto']['name'];
@@ -324,12 +324,18 @@ class Admin extends CI_Controller
 				}
 				// Pengkondisian jika fotonya terisi
 			} else {
+				$cekjkfoto = $this->input->post('jk', TRUE);
+				if ($cekjkfoto == "L") {
+					$jenisfoto = "L-default.jpg";
+				} else {
+					$jenisfoto = "P-default.jpg";
+				}
 				$acak = rand(1000, 9999);
 				$string = preg_replace('/[^a-zA-Z0-9 &%|{.}=,?!*()"-_+$@;<>]/', '', $this->input->post('nama', TRUE));
 				$trim = trim($string);
 				$pre_slug = strtolower(str_replace(" ", "-", $trim));
 				$slug1 = $acak . '-pegawai-' . $pre_slug . '.html';
-				$this->Modeldata->Simpan_pegawai_nofoto('pegawai', 'default.jpg', $slug1);
+				$this->Modeldata->Simpan_pegawai_nofoto('pegawai', $jenisfoto, $slug1);
 				$this->session->set_flashdata('pesan', 'Data pegawai berhasil di simpan.!');
 				redirect('Pegawai/');
 			}
@@ -338,6 +344,18 @@ class Admin extends CI_Controller
 			$data['data_pegawai']				= $this->Modeldata->get_data_pegawai()->result();
 			$data['data_role']					= $this->Modeldata->get_data_role()->result();
 			$this->template->load('admin_template/halaman_master', 'data/pegawai', $data);
+		}
+	}
+	public function Detail_pegawai($md5 = null, $id = null)
+	{
+		// Pengkondisian URL
+		$konversi=md5($md5);
+		if ($konversi!=$id) {
+			redirect('Pegawai');
+		}else{
+			$data['data_pegawai']				= $this->Modeldata->get_data_pegawai()->result();
+			$data['data_role']					= $this->Modeldata->get_data_role()->result();
+			$this->template->load('admin_template/halaman_master', 'data/detail_pegawai', $data);
 		}
 	}
 	// Management

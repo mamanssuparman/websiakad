@@ -19,6 +19,9 @@ if ($this->session->flashdata('pesan')) {
                         <div class="col-md-9 col-sm-9 col-xs-9">
                             <input type="text" class="form-control" name="nip" value="<?php echo set_value('nip') ?>">
                             <span>
+                                <font color="black"><i>Jika mau di kosongkan di isi "-"</i></font>
+                            </span>
+                            <span>
                                 <font color="red"><?php echo form_error('nip') ?></font>
                             </span>
                         </div>
@@ -27,6 +30,9 @@ if ($this->session->flashdata('pesan')) {
                         <label class="control-label col-md-3 col-sm-3 col-xs-3">NUPTK</label>
                         <div class="col-md-9 col-sm-9 col-xs-9">
                             <input type="text" class="form-control" name="nuptk" value="<?php echo set_value('nuptk') ?>">
+                            <span>
+                                <font color="black"><i>Jika mau di kosongkan di isi "-"</i></font>
+                            </span>
                             <span>
                                 <font color="red"><?php echo form_error('nuptk') ?></font>
                             </span>
@@ -44,9 +50,54 @@ if ($this->session->flashdata('pesan')) {
                     <div class="form-group row">
                         <label class="control-label col-md-3 col-sm-3 col-xs-3">Jenis Kelamin</label>
                         <div class="col-md-9 col-sm-9 col-xs-9">
-                            <input type="radio" name="jk" value="L" class="flat"> Laki-laki <input type="radio" name="jk" value="L" class="flat"> Perempuan
+                            <input type="radio" name="jk" value="L" class="flat"> Laki-laki <input type="radio" name="jk" value="P" class="flat"> Perempuan
                             <span>
                                 <font color="red"><?php echo form_error('jk') ?></font>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-3">No Handphone</label>
+                        <div class="col-md-9 col-sm-9 col-xs-9">
+                            <input type="text" name="no_hp" class="form-control">
+                            <span>
+                                <font color="red"><?php echo form_error('no_hp') ?></font>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-3">E-mail</label>
+                        <div class="col-md-9 col-sm-9 col-xs-9">
+                            <input type="email" name="email" class="form-control">
+                            <span>
+                                <font color="red"><?php echo form_error('email') ?></font>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-3">Website</label>
+                        <div class="col-md-9 col-sm-9 col-xs-9">
+                            <input type="text" name="website" class="form-control">
+                            <span>
+                                <font color="red"><?php echo form_error('website') ?></font>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-3">Alamat</label>
+                        <div class="col-md-9 col-sm-9 col-xs-9">
+                            <textarea name="alamat" id="alamat" cols="" rows="3" class="form-control"></textarea>
+                            <span>
+                                <font color="red"><?php echo form_error('alamat') ?></font>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-3">Bio</label>
+                        <div class="col-md-9 col-sm-9 col-xs-9">
+                            <textarea name="bio" id="bio" cols="" rows="3" class="form-control"></textarea>
+                            <span>
+                                <font color="red"><?php echo form_error('bio') ?></font>
                             </span>
                         </div>
                     </div>
@@ -173,6 +224,7 @@ if ($this->session->flashdata('pesan')) {
         <div class="x_panel">
             <div class="x_title">
                 <h2>Button Example <small>Users</small></h2>
+
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -182,14 +234,38 @@ if ($this->session->flashdata('pesan')) {
                             <table id="datatable-buttons" class="table table-striped table-bordered table-hover" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>ID Profil</th>
-                                        <th>Nama</th>
-                                        <th>Status Terbit</th>
-                                        <th>Aksi</th>
+                                        <th>NIP</th>
+                                        <th>NUTPK</th>
+                                        <th>NAMA</th>
+                                        <th>FOTO</th>
+                                        <th>TANGGAL LAHIR</th>
+
+                                        <th>STATUS TERBIT</th>
+                                        <th>AKSI</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-
+                                    <?php
+                                    foreach ($data_pegawai as $tampilkan_pegawai) {
+                                        echo "<tr>";
+                                        echo "<td>$tampilkan_pegawai->nip</td>";
+                                        echo "<td>$tampilkan_pegawai->nuptk</td>";
+                                        echo "<td>$tampilkan_pegawai->nama</td>";
+                                        echo "<td>"; ?>
+                                        <img class="img-responsive avatar-view" width="80" src="<?php echo base_url() ?>uploads/pegawai/<?php echo $tampilkan_pegawai->foto ?>" alt="Avatar" title="Change the avatar">
+                                    <?php echo "</td>";
+                                        echo "<td>$tampilkan_pegawai->tgl_lahir</td>";
+                                        echo "<td>";
+                                        if ($tampilkan_pegawai->status_terbit == "ya") {
+                                            echo "<button type='button' class='btn btn-round btn-primary bn-sm'>ON</button>";
+                                        } else {
+                                            echo "<button type='button' class='btn btn-round btn-warning bn-sm'>OFF</button>";
+                                        }
+                                        echo "</td>";
+                                        echo "<td><button class='btn btn-success btn-sm' title='Edit'><li class='fa fa-edit'></li></button> | <a href='Pegawai/Detail/".md5($tampilkan_pegawai->id_user)."/".$tampilkan_pegawai->id_user."'><button class='btn btn-primary btn-sm' title='Detail'><li class='fa fa-list'></li></button></a></td>";
+                                        echo "</tr>";
+                                    }
+                                    ?>
                                 </tbody>
                             </table>
                         </div>
