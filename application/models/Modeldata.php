@@ -383,7 +383,7 @@ class Modeldata extends CI_Model
     }
     public function get_data_pegawai_by_id($id)
     {
-        return $this->db->get_where('pegawai',array('id_user'=>$id));
+        return $this->db->get_where('vw_role_pegawai',array('id_user'=>$id));
     }
     public function Simpan_pegawai_foto($tabel,$foto,$slug)
     {
