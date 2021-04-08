@@ -180,8 +180,6 @@ if ($this->session->flashdata('pesan')) {
                             </span>
                         </div>
                         <!--  -->
-
-
                     </div>
                     <div class="form-group row">
                         <label class="control-label col-md-3 col-sm-3 col-xs-3">Akses</label>
@@ -231,7 +229,7 @@ if ($this->session->flashdata('pesan')) {
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="card-box table-responsive">
-                            <table id="datatable-buttons" class="table table-striped table-bordered table-hover" style="width:100%">
+                            <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
                                         <th>NIP</th>
@@ -253,7 +251,7 @@ if ($this->session->flashdata('pesan')) {
                                         echo "<td>$tampilkan_pegawai->nama</td>";
                                         echo "<td>"; ?>
                                         <img class="img-responsive avatar-view" width="80" src="<?php echo base_url() ?>uploads/pegawai/<?php echo $tampilkan_pegawai->foto ?>" alt="Avatar" title="Change the avatar">
-                                    <?php echo "</td>";
+                                        <?php echo "</td>";
                                         echo "<td>$tampilkan_pegawai->tgl_lahir</td>";
                                         echo "<td>";
                                         if ($tampilkan_pegawai->status_terbit == "ya") {
@@ -261,9 +259,16 @@ if ($this->session->flashdata('pesan')) {
                                         } else {
                                             echo "<button type='button' class='btn btn-round btn-warning bn-sm'>OFF</button>";
                                         }
-                                        echo "</td>";
-                                        echo "<td><button class='btn btn-success btn-sm' title='Edit'><li class='fa fa-edit'></li></button> | <a href='Pegawai/Detail/".md5($tampilkan_pegawai->id_user)."/".$tampilkan_pegawai->id_user."'><button class='btn btn-primary btn-sm' title='Detail'><li class='fa fa-list'></li></button></a></td>";
-                                        echo "</tr>";
+                                        echo "</td>"; ?>
+                                        <td><button class='btn btn-success btn-sm' title='Edit'>
+                                                <li class='fa fa-edit'></li>
+                                            </button> |
+                                            <a href="<?php echo base_url() ?>Pegawai/Detail/<?php echo md5($tampilkan_pegawai->id_user) ?>/<?php echo $tampilkan_pegawai->id_user ?>"><button class='btn btn-primary btn-sm' title='Detail'>
+                                                    <li class='fa fa-list'></li>
+                                                </button>
+                                            </a>
+                                        </td>
+                                    <?php echo "</tr>";
                                     }
                                     ?>
                                 </tbody>

@@ -349,10 +349,10 @@ class Admin extends CI_Controller
 	public function Detail_pegawai($md5 = null, $id = null)
 	{
 		// Pengkondisian URL
-		$konversi=md5($md5);
-		if ($konversi!=$id) {
+		$konversi = md5($md5);
+		if ($konversi != $id) {
 			redirect('Pegawai');
-		}else{
+		} else {
 			$data['data_pegawai']				= $this->Modeldata->get_data_pegawai_by_id($md5)->result();
 			// $data['data_role']				= $this->Modeldata->get_data_role()->result();
 			$this->template->load('admin_template/halaman_master', 'data/detail_pegawai', $data);
@@ -360,10 +360,10 @@ class Admin extends CI_Controller
 	}
 	public function Edit_pegawai($md5 = null, $id = null)
 	{
-		$konversi=md5($md5);
-		if ($konversi!=$id) {
+		$konversi = md5($md5);
+		if ($konversi != $id) {
 			redirect('Pegawai');
-		}else{
+		} else {
 			$data['data_pegawai']				= $this->Modeldata->get_data_pegawai_by_id($md5)->result();
 			$data['data_role']					= $this->Modeldata->get_data_role()->result();
 			$this->template->load('admin_template/halaman_master', 'data/edit_pegawai', $data);
@@ -378,56 +378,70 @@ class Admin extends CI_Controller
 		$this->form_validation->set_rules('nama', 'nama', 'required', array('required' => 'Nama Pegawai tidak boleh kosong', 'is_unique' => 'Nama profil Jurusan sudah ada di dalam data, mohon di cek kembali'));
 		$this->form_validation->set_rules('pangkat', 'pangkat', 'htmlspecialchars', array('htmlspecialchars' => 'Masukkan data dengan benar'));
 		$this->form_validation->set_rules('golongan', 'golongan', 'htmlspecialchars', array('htmlspecialchars' => 'Masukkan data dengan benar'));
-		$this->form_validation->set_rules('username', 'username', 'required|is_unique[pegawai.username]', array('required' => 'Username tidak boleh kosong.', 'is_unique' => 'Username sudah terdaftar, mohon di cek kembali'));
 		// $this->form_validation->set_rules('password', 'password', 'required', array('required' => 'Password tidak boleh kosong.!'));
 		$this->form_validation->set_rules('tgl_lahir', 'tgl_lahir', 'required', array('required' => 'Tanggal lahir belum di isi.!'));
 		if ($this->form_validation->run() == TRUE) {
-			// Jika berhasil 
-			$foto = $_FILES['foto']['name'];
-			// Pengkondisian Foto 
-			if (!empty($foto)) {
-				$acak = rand(1000, 9999);
-				$string = preg_replace('/[^a-zA-Z0-9 &%|{.}=,?!*()"-_+$@;<>]/', '', $this->input->post('nama', TRUE));
-				$trim = trim($string);
-				$pre_slug = strtolower(str_replace(" ", "-", $trim));
-				$slug = $acak . '-pegawai-' . $pre_slug . '.html';
-				$foto1 = $acak . '-images-' . md5($acak) . '.jpg';
-				$config['upload_path']		= './uploads';
-				$config['allowed_types']	= 'jpg';
-				$config['max_size']			= 1024;
-				$config['file_name']		= $foto1;
-				$this->load->library('upload', $config);
-				if (!$this->upload->do_upload('foto')) {
-					$this->session->set_flashdata('pesan', 'Data gambar tidak sesuai.!!');
-					redirect('Pegawai/');
-				} else {
-					$this->Modeldata->Simpan_pegawai_foto('pegawai', $foto1, $slug);
-					$this->session->set_flashdata('pesan', 'Data pegawai berhasil di simpan.!');
-					redirect('Pegawai/');
-				}
-				// Pengkondisian jika fotonya terisi
+			$cekjkfoto = $this->input->post('jk', TRUE);
+			if ($cekjkfoto == "L") {
+				$jenisfoto = "L-default.jpg";
 			} else {
-				$cekjkfoto = $this->input->post('jk', TRUE);
-				if ($cekjkfoto == "L") {
-					$jenisfoto = "L-default.jpg";
-				} else {
-					$jenisfoto = "P-default.jpg";
-				}
-				$acak = rand(1000, 9999);
-				$string = preg_replace('/[^a-zA-Z0-9 &%|{.}=,?!*()"-_+$@;<>]/', '', $this->input->post('nama', TRUE));
-				$trim = trim($string);
-				$pre_slug = strtolower(str_replace(" ", "-", $trim));
-				$slug1 = $acak . '-pegawai-' . $pre_slug . '.html';
-				$this->Modeldata->Simpan_pegawai_nofoto('pegawai', $jenisfoto, $slug1);
-				$this->session->set_flashdata('pesan', 'Data pegawai berhasil di simpan.!');
-				redirect('Pegawai/');
+				$jenisfoto = "P-default.jpg";
 			}
+			$this->Modeldata->update_data_pegawai('pegawai', $this->input->post('id_user', TRUE));
+			$this->session->set_flashdata('pesan', 'Data pegawai berhasil di simpan.!');
+			redirect('Pegawai/');
 		} else {
 			// Jika Gagal
 			$data['data_pegawai']				= $this->Modeldata->get_data_pegawai()->result();
-			$data['data_role']					= $this->Modeldata->get_data_role()->result();
-			$this->template->load('admin_template/halaman_master', 'data/pegawai', $data);
+			$this->template->load('admin_template/halaman_master', 'data/edit_pegawai', $data);
 		}
+	}
+	public function Edit_account($md5 = null, $id = null)
+	{
+		$konversi = md5($md5);
+		if ($konversi != $id) {
+			redirect('Pegawai/Detail/');
+		} else {
+			$data['data_pegawai']				= $this->Modeldata->get_data_pegawai_by_id($md5)->result();
+			$data['data_role']					= $this->Modeldata->get_data_role()->result();
+			$this->template->load('admin_template/halaman_master', 'data/edit_account', $data);
+		}
+	}
+	public function Update_account()
+	{
+		// Pengkondisian jika passowrd baru tidak di isi
+		// $new_password=$this->input->post('');
+		if (empty($this->input->post('new_password', TRUE))) {
+			$this->form_validation->set_rules('username', 'username', 'required');
+			$this->form_validation->set_rules('role', 'role', 'required');
+			// pengkondisian jika validasi berhasil 
+			if ($this->form_validation->run() == TRUE) {
+				$this->Modeldata->update_data_account_no_new_password('pegawai', $this->input->post('id_user', TRUE));
+				$this->session->set_flashdata('pesan', 'Data Account pegawai berhasil di perbaharui.');
+				redirect('Pegawai/');
+			} else {
+				$this->session->set_flashdata('pesan', 'Data Account gagal di perbaharui');
+				redirect('Pegawai/');
+			}
+		} else {
+		// Pengkondisian jika password baru di isi
+			$this->form_validation->set_rules('username', 'username', 'required');
+			$this->form_validation->set_rules('new_password', 'new_passwrod', 'required');
+			$this->form_validation->set_rules('role', 'role', 'required');
+			// Jika Validasi Form Update Account Berhasil
+			if ($this->form_validation->run() == TRUE) {
+				$this->Modeldata->update_data_account('pegawai', $this->input->post('id_user', TRUE));
+				$this->session->set_flashdata('pesan', 'Data Account pegawai berhasil di perbaharui.');
+				redirect('Pegawai/');
+			} else {
+				$this->session->set_flashdata('pesan', 'Data Account gagal di perbaharui');
+				redirect('Pegawai/');
+			}
+		}
+	}
+	public function Update_foto($md5 = null, $id = null)
+	{
+		
 	}
 	// Management
 	public function Role()

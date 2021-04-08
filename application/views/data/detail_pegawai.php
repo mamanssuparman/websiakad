@@ -20,7 +20,7 @@ if ($this->session->flashdata('pesan')) {
                             <!-- Current avatar -->
                             <?php foreach ($data_pegawai as $tampilkan_pegawai) { ?>
                                 <img class="img-responsive avatar-view" src="<?php echo base_url() ?>uploads/pegawai/<?php echo $tampilkan_pegawai->foto ?>" alt="Avatar" title="Change the avatar" width="200">
-                            <a href="<?php echo base_url() ?>Pegawai/Update_foto/<?php echo md5($tampilkan_pegawai->id_user) ?>/<?php echo $tampilkan_pegawai->id_user ?>"><button class="btn btn-info btn-block">Perbaharui Foto</button></a>
+                                <a href="<?php echo base_url() ?>Pegawai/Update_foto/<?php echo md5($tampilkan_pegawai->id_user) ?>/<?php echo $tampilkan_pegawai->id_user ?>"><button class="btn btn-info btn-block">Perbaharui Foto</button></a>
                         </div>
                     </div>
 
@@ -37,20 +37,25 @@ if ($this->session->flashdata('pesan')) {
                         <li>
                             <i class="fa fa-barcode user-profile-icon"></i> <?php echo $tampilkan_pegawai->nip; ?>
                         </li>
-                        <li>
-                            <i class="fa fa-barcode user-profile-icon"></i> <?php echo $tampilkan_pegawai->username; ?>
-                        </li>
-                        <li class="m-top-xs">
-                        <li><i class="fa fa-user user-profile-icon"></i> <?php echo $tampilkan_pegawai->nama_role; ?></li>
-                        </li>
-                        <a href="<?php echo base_url() ?>Pegawai/Edit/<?php echo md5($tampilkan_pegawai->id_user) ?>/<?php echo $tampilkan_pegawai->id_user ?>"><button class="btn btn-info btn-block">Perbaharui</button></a>
+                        <a href="<?php echo base_url() ?>Pegawai/Edit/<?php echo md5($tampilkan_pegawai->id_user) ?>/<?php echo $tampilkan_pegawai->id_user ?>"><button class="btn btn-info btn-block">Perbaharui Data</button></a>
                     </ul>
                     <br />
+                    <br>
+                    <ul class="list-unstyled user_data">
+
+                        <li><i class="fa fa-user user-profile-icon"></i> Username :
+                            <?php echo $tampilkan_pegawai->username; ?>
+                        </li>
+                        <li><i class="fa fa-briefcase user-profile-icon"></i> Role :
+                            <?php echo $tampilkan_pegawai->nama_role; ?>
+                        </li>
+                        <a href="<?php echo base_url() ?>Pegawai/Account/<?php echo md5($tampilkan_pegawai->id_user) ?>/<?php echo $tampilkan_pegawai->id_user ?>"><button class="btn btn-info btn-block">Perbaharui Account</button></a>
+                    </ul>
                     <!-- start skills -->
                     <!-- end of skills -->
                 </div>
                 <div class="col-md-9 col-sm-9 profile_left">
-                    <table class="table table-hover">
+                    <table id="datatable-responsive" class="table table-responsive">
                         <tr>
                             <td>
                                 <h4>NIP</h4>
@@ -139,15 +144,6 @@ if ($this->session->flashdata('pesan')) {
                             <td>:</td>
                             <td>
                                 <h4><?php echo $tampilkan_pegawai->golongan ?></h4>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <h4>Username</h4>
-                            </td>
-                            <td>:</td>
-                            <td>
-                                <h4><?php echo $tampilkan_pegawai->username ?></h4>
                             </td>
                         </tr>
                     </table>

@@ -38,8 +38,13 @@ $route['Pegawai/Save']                              ='Admin/Savepegawai';
 $route['Pegawai/Detail/(:any)/(:num)']              ='Admin/Detail_pegawai/$2/$1';
 $route['Pegawai/Edit/(:any)/(:num)']                ='Admin/Edit_pegawai/$2/$1';
 $route['Pegawai/Update']                            ='Admin/Update_pegawai';
+$route['Pegawai/Account/(:any)/(:num)']             ='Admin/Edit_account/$2/$1';
+$route['Pegawai/Update_account']                    ='Admin/Update_account';
+$route['Pegawai/Update_foto/(:any)/(:num)']         ='Admin/Update_foto/$2/$1';
 // Management
 $route['Role']                                      ='Admin/Role';
 $route['Role/Simpan']                               ='Admin/Save_role';
 $route['Role/Get_id_role_edit/(:num)']              ='Admin/Get_id_role_edit/$1';
 $route['Role/Update']                               ='Admin/Update_role';
+// Login
+$route['Auth']                                      ='Auth';

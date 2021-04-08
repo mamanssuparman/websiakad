@@ -357,7 +357,7 @@ class Modeldata extends CI_Model
                 'slug'          => $slug1,
             );
             $this->db->set($isidata);
-            $this->db->where('id_program_keahlian',$id);
+            $this->db->where('id_program_keahlian', $id);
             $this->db->update('programkeahlian');
         } else {
             // Jika slug data tidak sama
@@ -372,7 +372,7 @@ class Modeldata extends CI_Model
                 'slug'          => $slug,
             );
             $this->db->set($isidata);
-            $this->db->where('id_program_keahlian',$id);
+            $this->db->where('id_program_keahlian', $id);
             $this->db->update('programkeahlian');
         }
     }
@@ -383,9 +383,9 @@ class Modeldata extends CI_Model
     }
     public function get_data_pegawai_by_id($id)
     {
-        return $this->db->get_where('vw_role_pegawai',array('id_user'=>$id));
+        return $this->db->get_where('vw_role_pegawai', array('id_user' => $id));
     }
-    public function Simpan_pegawai_foto($tabel,$foto,$slug)
+    public function Simpan_pegawai_foto($tabel, $foto, $slug)
     {
         // $acak = rand(1000, 9999);
         // $string = preg_replace('/[^a-zA-Z0-9 &%|{.}=,?!*()"-_+$@;<>]/', '', $this->input->post('nama', TRUE));
@@ -395,50 +395,94 @@ class Modeldata extends CI_Model
         // $this->db->where('slug', $slug);
         // $query = $this->db->get('proju');
 
-        $isidata=array(
-            'nip'       =>$this->input->post('nip',TRUE),
-            'nuptk'     =>$this->input->post('nuptk',TRUE),
-            'nama'      =>$this->input->post('nama',TRUE),
-            'jk'        =>$this->input->post('jk',TRUE),
-            'tgl_lahir' =>$this->input->post('tgl_lahir',TRUE),
-            'pend_terakhir' =>$this->input->post('pend_terakhir',TRUE),
-            'jabatan'       =>$this->input->post('jabatan',TRUE),
-            'pangkat'       =>$this->input->post('pangkat',TRUE),
-            'golongan'      =>$this->input->post('golongan',TRUE),
-            'slug'          =>$slug,
-            'foto'          =>$foto,
-            'username'      =>$this->input->post('username',TRUE),
-            'pasword'       =>$this->input->post('password',TRUE),
-            'id_role'       =>$this->input->post('role',TRUE),
+        $isidata = array(
+            'nip'       => $this->input->post('nip', TRUE),
+            'nuptk'     => $this->input->post('nuptk', TRUE),
+            'nama'      => $this->input->post('nama', TRUE),
+            'jk'        => $this->input->post('jk', TRUE),
+            'tgl_lahir' => $this->input->post('tgl_lahir', TRUE),
+            'pend_terakhir' => $this->input->post('pend_terakhir', TRUE),
+            'jabatan'       => $this->input->post('jabatan', TRUE),
+            'pangkat'       => $this->input->post('pangkat', TRUE),
+            'golongan'      => $this->input->post('golongan', TRUE),
+            'slug'          => $slug,
+            'foto'          => $foto,
+            'username'      => $this->input->post('username', TRUE),
+            'pasword'       => $this->input->post('password', TRUE),
+            'id_role'       => $this->input->post('role', TRUE),
         );
-		// var_dump($isidata);
-        $this->db->insert($tabel,$isidata);
+        // var_dump($isidata);
+        $this->db->insert($tabel, $isidata);
     }
-    public function Simpan_pegawai_nofoto($tabel,$foto,$slug)
+    public function Simpan_pegawai_nofoto($tabel, $foto, $slug)
     {
-        $cekpassword=$this->input->post('password',TRUE);
+        $cekpassword = $this->input->post('password', TRUE);
         if (empty($cekpassword)) {
-            $isipassword=password_hash('123456',PASSWORD_DEFAULT);
-        }else{
-            $isipassword=password_hash($cekpassword,PASSWORD_DEFAULT);
+            $isipassword = password_hash('123456', PASSWORD_DEFAULT);
+        } else {
+            $isipassword = password_hash($cekpassword, PASSWORD_DEFAULT);
         }
-        $isidata=array(
-            'nip'       =>$this->input->post('nip',TRUE),
-            'nuptk'     =>$this->input->post('nuptk',TRUE),
-            'nama'      =>$this->input->post('nama',TRUE),
-            'jk'        =>$this->input->post('jk',TRUE),
-            'tgl_lahir' =>$this->input->post('tgl_lahir',TRUE),
-            'pend_terakhir' =>$this->input->post('pend_terakhir',TRUE),
-            'jabatan'       =>$this->input->post('jabatan',TRUE),
-            'pangkat'       =>$this->input->post('pangkat',TRUE),
-            'golongan'      =>$this->input->post('golongan',TRUE),
-            'slug'          =>$slug,
-            'foto'          =>$foto,
-            'username'      =>$this->input->post('username',TRUE),
-            'pasword'       =>$isipassword,
-            'id_role'       =>$this->input->post('role',TRUE),
+        $isidata = array(
+            'nip'       => $this->input->post('nip', TRUE),
+            'nuptk'     => $this->input->post('nuptk', TRUE),
+            'nama'      => $this->input->post('nama', TRUE),
+            'jk'        => $this->input->post('jk', TRUE),
+            'tgl_lahir' => $this->input->post('tgl_lahir', TRUE),
+            'pend_terakhir' => $this->input->post('pend_terakhir', TRUE),
+            'jabatan'       => $this->input->post('jabatan', TRUE),
+            'pangkat'       => $this->input->post('pangkat', TRUE),
+            'golongan'      => $this->input->post('golongan', TRUE),
+            'slug'          => $slug,
+            'foto'          => $foto,
+            'username'      => $this->input->post('username', TRUE),
+            'pasword'       => $isipassword,
+            'id_role'       => $this->input->post('role', TRUE),
         );
-        $this->db->insert($tabel,$isidata);
+        $this->db->insert($tabel, $isidata);
+    }
+    public function update_data_pegawai($tabel, $id_user)
+    {
+        $isidata = array(
+            'nip'           => $this->input->post('nip', TRUE),
+            'nuptk'         => $this->input->post('nuptk', TRUE),
+            'nama'          => $this->input->post('nama', TRUE),
+            'jk'            => $this->input->post('jk', TRUE),
+            'no_hp'         => $this->input->post('no_hp', TRUE),
+            'alamat'        => $this->input->post('alamat', TRUE),
+            'email'         => $this->input->post('email', TRUE),
+            'website'       => $this->input->post('website', TRUE),
+            'bio'           => $this->input->post('bio', TRUE),
+            'tgl_lahir'     => $this->input->post('tgl_lahir', TRUE),
+            'pend_terakhir' => $this->input->post('pend_terakhir', TRUE),
+            'jabatan'       => $this->input->post('jabatan', TRUE),
+            'pangkat'       => $this->input->post('pangkat', TRUE),
+            'golongan'      => $this->input->post('golongan', TRUE),
+        );
+        $this->db->set($isidata);
+        $this->db->where('id_user', $id_user);
+        $this->db->update($tabel);
+    }
+    public function update_data_account($tabel, $id_user)
+    {
+        $hash_password = password_hash($this->input->post('password', TRUE), PASSWORD_DEFAULT);
+        $isidata = array(
+            'username'           => $this->input->post('username', TRUE),
+            'pasword'            => $hash_password,
+            'id_role'            => $this->input->post('role', TRUE),
+        );
+        $this->db->set($isidata);
+        $this->db->where('id_user', $id_user);
+        $this->db->update($tabel);
+    }
+    public function update_data_account_no_new_password($tabel, $id_user)
+    {
+        $isidata = array(
+            'username'           => $this->input->post('username', TRUE),
+            'id_role'            => $this->input->post('role', TRUE),
+        );
+        $this->db->set($isidata);
+        $this->db->where('id_user', $id_user);
+        $this->db->update($tabel);
     }
     // Management
     public function get_data_role()
@@ -447,19 +491,19 @@ class Modeldata extends CI_Model
     }
     public function simpan_role()
     {
-        $isidata=array(
-            'nama_role'         =>$this->input->post('role',TRUE),
+        $isidata = array(
+            'nama_role'         => $this->input->post('role', TRUE),
         );
-        $this->db->insert('role',$isidata);
+        $this->db->insert('role', $isidata);
     }
     public function update_role()
     {
-        $id=$this->input->post('id_role',TRUE);
-        $isidata=array(
-            'nama_role'         =>$this->input->post('role',TRUE),
+        $id = $this->input->post('id_role', TRUE);
+        $isidata = array(
+            'nama_role'         => $this->input->post('role', TRUE),
         );
         $this->db->set($isidata);
-        $this->db->where('id_role',$id);
+        $this->db->where('id_role', $id);
         $this->db->update('role');
     }
 }

@@ -169,48 +169,7 @@ if ($this->session->flashdata('pesan')) {
                             </div>
 
                         </div>
-                        <div class="form-group row">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-3">Username</label>
-                            <div class="col-md-9 col-sm-9 col-xs-9">
-                                <input type="text" name="username" id="username" class="form-control" value="<?php echo $tampilkan_pegawai->username ?>">
-                                <span>
-                                    <font color="red"><?php echo form_error('username') ?></font>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-3">Password Baru</label>
-                            <div class="col-md-9 col-sm-9 col-xs-9">
-                                <input type="password" name="password" id="password" class="form-control" value="<?php echo set_value('password') ?>">
-                                <span>
-                                    <font color="black"><i>Kosongkan jika password di isi dengan default</i></font>
-                                </span>
-                                <span>
-                                    <font color="red"><?php echo form_error('password') ?></font>
-                                </span>
-                            </div>
-                            <!--  -->
 
-
-                        </div>
-                        <div class="form-group row">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-3">Akses</label>
-                            <div class="col-md-9 col-sm-9 col-xs-9">
-                                <select name="role" id="role" class="form-control">
-                                    <?php
-                                    foreach ($data_role as $tampilkan_role) {
-                                        echo "<option value='$tampilkan_role->id_role'>$tampilkan_role->nama_role</option>";
-                                    }
-                                    ?>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-3">Photo</label>
-                            <div class="col-md-9 col-sm-9 col-xs-9">
-                                <input type="file" name="foto" id="foto" class="form-control">
-                            </div>
-                        </div>
                         <div class="form-group row">
                             <div class="col-md-9 offset-md-3">
                                 <button type="button" class="btn btn-success">
