@@ -376,10 +376,30 @@ class Modeldata extends CI_Model
             $this->db->update('programkeahlian');
         }
     }
+    // Pengumuman
+    public function get_data_pengumuman()
+    {
+        return $this->db->get('vw_pengumuman_detail');
+    }
+    public function Save_pengumuman()
+    {
+        $acak = rand(1000, 9999);
+        $string = preg_replace('/[^a-zA-Z0-9 &%|{.}=,?!*()"-_+$@;<>]/', '', $this->input->post('judul', TRUE));
+        $trim = trim($string);
+        $pre_slug = strtolower(str_replace(" ", "-", $trim));
+        $slug = $acak . '-pengumuman-' . $pre_slug . '.html';
+        $isidata = array(
+            'judul'         => $this->input->post('judul', TRUE),
+            'isi'           => $this->input->post('isi', TRUE),
+            'slug'          => $slug,
+            'id_user'       => $this->session->userdata('id_user'),
+        );
+        $this->db->insert('pengumuman',$isidata);
+    }
     // Pegawai
     public function get_data_pegawai()
     {
-        return $this->db->get('pegawai');
+        return $this->db->get('vw_pengumuman_detail');
     }
     public function get_data_pegawai_by_id($id)
     {
@@ -394,7 +414,12 @@ class Modeldata extends CI_Model
         // $slug = $acak . '-' . $pre_slug . '.html';
         // $this->db->where('slug', $slug);
         // $query = $this->db->get('proju');
-
+        $cekpassword = $this->input->post('password', TRUE);
+        if (empty($cekpassword)) {
+            $isipassword = password_hash('123456', PASSWORD_DEFAULT);
+        } else {
+            $isipassword = password_hash($cekpassword, PASSWORD_DEFAULT);
+        }
         $isidata = array(
             'nip'       => $this->input->post('nip', TRUE),
             'nuptk'     => $this->input->post('nuptk', TRUE),
@@ -407,12 +432,23 @@ class Modeldata extends CI_Model
             'golongan'      => $this->input->post('golongan', TRUE),
             'slug'          => $slug,
             'foto'          => $foto,
+            'alamat'        => $this->input->post('alamat', TRUE),
+            'no_hp'         => $this->input->post('no_hp', TRUE),
+            'email'         => $this->input->post('email', TRUE),
+            'website'       => $this->input->post('website', TRUE),
+            'bio'           => $this->input->post('bio', TRUE),
             'username'      => $this->input->post('username', TRUE),
-            'pasword'       => $this->input->post('password', TRUE),
+            'pasword'       => $isipassword,
             'id_role'       => $this->input->post('role', TRUE),
         );
         // var_dump($isidata);
         $this->db->insert($tabel, $isidata);
+        $id_user = $this->db->insert_id();
+        $isidatalogin = array(
+            'id_user'       => $id_user,
+            // 'id_role'       => $this->input->post('role', TRUE),
+        );
+        $this->db->insert('login', $isidatalogin);
     }
     public function Simpan_pegawai_nofoto($tabel, $foto, $slug)
     {
@@ -434,11 +470,23 @@ class Modeldata extends CI_Model
             'golongan'      => $this->input->post('golongan', TRUE),
             'slug'          => $slug,
             'foto'          => $foto,
+            'alamat'        => $this->input->post('alamat', TRUE),
+            'no_hp'         => $this->input->post('no_hp', TRUE),
+            'email'         => $this->input->post('email', TRUE),
+            'website'       => $this->input->post('website', TRUE),
+            'bio'           => $this->input->post('bio', TRUE),
             'username'      => $this->input->post('username', TRUE),
             'pasword'       => $isipassword,
             'id_role'       => $this->input->post('role', TRUE),
+
         );
         $this->db->insert($tabel, $isidata);
+        $id_user = $this->db->insert_id();
+        $isidatalogin = array(
+            'id_user'       => $id_user,
+            // 'id_role'       => $this->input->post('role', TRUE),
+        );
+        $this->db->insert('login', $isidatalogin);
     }
     public function update_data_pegawai($tabel, $id_user)
     {
@@ -457,6 +505,7 @@ class Modeldata extends CI_Model
             'jabatan'       => $this->input->post('jabatan', TRUE),
             'pangkat'       => $this->input->post('pangkat', TRUE),
             'golongan'      => $this->input->post('golongan', TRUE),
+
         );
         $this->db->set($isidata);
         $this->db->where('id_user', $id_user);
@@ -473,6 +522,8 @@ class Modeldata extends CI_Model
         $this->db->set($isidata);
         $this->db->where('id_user', $id_user);
         $this->db->update($tabel);
+        // Update user login
+        // $this->db->set->()
     }
     public function update_data_account_no_new_password($tabel, $id_user)
     {

@@ -25,7 +25,7 @@
                     <li><a href="<?php echo base_url() ?>Pegawai">Data Pendidik </a></li>
                     <li><a href="<?php echo base_url() ?>Kategori">Data Kategori </a></li>
                     <li><a href="media_gallery.html">Data Berita </a></li>
-                    <li><a href="media_gallery.html">Data Pengumuman </a></li>
+                    <li><a href="<?php echo base_url() ?>Pengumuman">Data Pengumuman </a></li>
                     <li><a href="<?php echo base_url() ?>Profil">Data Profil </a></li>
                     <li><a href="<?php echo base_url() ?>Program-Keahlian">Data Program Keahlian </a></li>
                     <li><a href="<?php echo base_url() ?>Proju">Data Profil Jurusan </a></li>

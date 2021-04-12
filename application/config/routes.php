@@ -4,6 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+// Dashboard
+$route['Dashboard']                                 ='Admin';
 // Kategori
 $route['Kategori']                                  ='Admin/Kategori';
 $route['Kategori/Save']                             ='Admin/Savekategori';
@@ -46,5 +48,9 @@ $route['Role']                                      ='Admin/Role';
 $route['Role/Simpan']                               ='Admin/Save_role';
 $route['Role/Get_id_role_edit/(:num)']              ='Admin/Get_id_role_edit/$1';
 $route['Role/Update']                               ='Admin/Update_role';
+// Pengumuman
+$route['Pengumuman']                                ='Admin/Pengumuman';
+$route['Pengumuman/Save']                           ='Admin/Save_pengumuman';
 // Login
-$route['Auth']                                      ='Auth';
+$route['Login']                                     ='Auth';
+$route['Login/Verifikasi']                          ='Auth/Login';

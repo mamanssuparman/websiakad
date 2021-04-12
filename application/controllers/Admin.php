@@ -7,6 +7,7 @@ class Admin extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('Modeldata');
+		ceklogin();
 	}
 	// Halaman Dashboard
 	public function index()
@@ -279,6 +280,29 @@ class Admin extends CI_Controller
 			$this->template->load('admin_template/halaman_master', 'data/program_keahlian', $data);
 		}
 	}
+	// Pengumuman
+	public function Pengumuman()
+	{
+		$data['data_pengumuman']			= $this->Modeldata->get_data_pengumuman()->result();
+		// $data['data_role']					= $this->Modeldata->get_data_role()->result();
+		$this->template->load('admin_template/halaman_master', 'data/pengumuman', $data);
+	}
+	public function Save_pengumuman()
+	{
+		$this->form_validation->set_rules('judul', 'judul', 'required|htmlspecialchars', array('required' => 'Judul tidak boleh kosong'));
+		$this->form_validation->set_rules('isi', 'isi', 'required', array('required' => 'Isi tidak boleh kosong.!'));
+		if ($this->form_validation->run() == TRUE) {
+			// Validasi berhasil
+			$this->Modeldata->Save_pengumuman();
+			$this->session->set_flashdata('pesan', 'Data pengumuman berhasil di simpan.!');
+			redirect('Pengumuman');
+		} else {
+			// Validasi gagal
+			$data['data_pengumuman']			= $this->Modeldata->get_data_pengumuman()->result();
+			// $data['data_role']					= $this->Modeldata->get_data_role()->result();
+			$this->template->load('admin_template/halaman_master', 'data/pengumuman', $data);
+		}
+	}
 	// Pegawai
 	public function Pegawai()
 	{
@@ -424,7 +448,7 @@ class Admin extends CI_Controller
 				redirect('Pegawai/');
 			}
 		} else {
-		// Pengkondisian jika password baru di isi
+			// Pengkondisian jika password baru di isi
 			$this->form_validation->set_rules('username', 'username', 'required');
 			$this->form_validation->set_rules('new_password', 'new_passwrod', 'required');
 			$this->form_validation->set_rules('role', 'role', 'required');
@@ -441,7 +465,6 @@ class Admin extends CI_Controller
 	}
 	public function Update_foto($md5 = null, $id = null)
 	{
-		
 	}
 	// Management
 	public function Role()

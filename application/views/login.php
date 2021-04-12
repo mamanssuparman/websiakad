@@ -31,22 +31,34 @@
         <div class="login_wrapper">
             <div class="animate form login_form">
                 <section class="login_content">
-                    <form method="POST" action="<?php echo base_url() ?>Auth/Login">
+                    <?php
+                    if ($this->session->flashdata('pesan')) {
+                        $this->load->view('admin_template/message');
+                    }
+                    ?>
+                    <form method="POST" action="<?php echo base_url() ?>Login/Verifikasi">
                         <h1>Login Form</h1>
                         <div>
-                            <input type="text" class="form-control" placeholder="Username" required="" />
+                            <input type="text" class="form-control" placeholder="Username" value="<?php echo set_value('username') ?>" name="username" />
+                            <span>
+                                <?php echo form_error('username') ?>
+                            </span>
                         </div>
                         <div>
-                            <input type="password" class="form-control" placeholder="Password" required="" />
+                            <input type="password" class="form-control" placeholder="Password" name="password" />
+                            <span>
+                                <?php echo form_error('password') ?>
+                            </span>
                         </div>
+                        <input type="hidden" class='form-control' name="<?php echo $this->security->get_csrf_token_name() ?>" value="<?php echo $this->security->get_csrf_hash() ?>">
                         <div>
-                            <button class="btn btn-success btn-block">Login</button>
+                            <button class="btn btn-success btn-block" type="submit">Login</button>
                         </div>
 
                         <div class="clearfix"></div>
 
                         <div class="separator">
-                            
+
                             <div>
                                 <h1> <?php echo $title ?></h1>
                                 <p>©2016 All Rights Reserved.</p>
