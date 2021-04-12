@@ -303,6 +303,48 @@ class Admin extends CI_Controller
 			$this->template->load('admin_template/halaman_master', 'data/pengumuman', $data);
 		}
 	}
+	public function Get_id_pengumuman($id = null)
+	{
+		$query = $this->db->get_where('pengumuman', array('id_pengumuman' => $id))->row();
+		echo json_encode($query);
+	}
+	public function Hapus_pengumuman()
+	{
+		$this->form_validation->set_rules('id_pengumuman_hapus', 'id_pengumuman_hapus', 'required', array('required' => 'Data tidak berhasil di hapus'));
+		if ($this->form_validation->run() == TRUE) {
+			// Validasi berhasil
+			$this->Modeldata->Hapus_pengumuman('pengumuman', $this->input->post('id_pengumuman_hapus'));
+			$this->session->set_flashdata('pesan', 'Data pengumuman berhasil di hapus.!');
+			redirect('Pengumuman');
+		} else {
+			// Validasi gagal
+			$this->session->set_flashdata('pesan', 'Data pengumuman gagal di hapus.!');
+			redirect('Pengumuman');
+		}
+	}
+	public function Edit_pengumuman($md5 = null, $id = null)
+	{
+		$konversi_md5 = md5($md5);
+		if ($konversi_md5 == $id) {
+			$data['data_pengumuman_edit']			= $this->Modeldata->get_data_pengumuman_by_id($md5)->result();
+			$this->template->load('admin_template/halaman_master', 'data/edit_pengumuman', $data);
+		} else {
+			redirect('Pengumuman', 'refresh');
+		}
+	}
+	public function Update_pengumuman()
+	{
+		$this->form_validation->set_rules('id_pengumuman', 'id_pengumuman', 'required|htmlspecialchars', array('required' => 'Judul tidak boleh kosong'));
+		$this->form_validation->set_rules('judul', 'judul', 'required|htmlspecialchars', array('required' => 'Judul tidak boleh kosong'));
+		$this->form_validation->set_rules('isi', 'isi', 'required', array('required' => 'Isi tidak boleh kosong.!'));
+		if ($this->form_validation->run() == TRUE) {
+			$this->Modeldata->Update_pengumuman($this->input->post('id_pengumuman',TRUE));
+			$this->session->set_flashdata('pesan','Data pengumuman berhasil di perbaharui');
+			redirect('Pengumuman');
+		} else {
+			echo "gagal";
+		}
+	}
 	// Pegawai
 	public function Pegawai()
 	{

@@ -396,6 +396,32 @@ class Modeldata extends CI_Model
         );
         $this->db->insert('pengumuman',$isidata);
     }
+    public function Hapus_pengumuman($tabel,$id_pengumuman)
+    {
+        $this->db->where('id_pengumuman',$id_pengumuman);
+        $this->db->delete('pengumuman');
+    }
+    public function get_data_pengumuman_by_id($id)
+    {
+        return $this->db->get_where('pengumuman',array('id_pengumuman'=>$id));
+    }
+    public function Update_pengumuman($id)
+    {
+        $acak = rand(1000, 9999);
+        $string = preg_replace('/[^a-zA-Z0-9 &%|{.}=,?!*()"-_+$@;<>]/', '', $this->input->post('judul', TRUE));
+        $trim = trim($string);
+        $pre_slug = strtolower(str_replace(" ", "-", $trim));
+        $slug = $acak . '-pengumuman-' . $pre_slug . '.html';
+        $isidata=array(
+            'judul'         =>$this->input->post('judul',TRUE),
+            'isi'           =>$this->input->post('isi',TRUE),
+            'slug'          =>$slug,
+
+        );
+        $this->db->set($isidata);
+        $this->db->where('id_pengumuman',$id);
+        $this->db->update('pengumuman');
+    }
     // Pegawai
     public function get_data_pegawai()
     {

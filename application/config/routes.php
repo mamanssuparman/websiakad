@@ -51,6 +51,10 @@ $route['Role/Update']                               ='Admin/Update_role';
 // Pengumuman
 $route['Pengumuman']                                ='Admin/Pengumuman';
 $route['Pengumuman/Save']                           ='Admin/Save_pengumuman';
+$route['Pengumuman/Get_id_pengumuman_hapus/(:num)'] ='Admin/Get_id_pengumuman/$1';
+$route['Pengumuman/hapus']                          ='Admin/Hapus_pengumuman';
+$route['Pengumuman/Edit/(:any)/(:num)']             ='Admin/Edit_pengumuman/$2/$1';
+$route['Pengumuman/Update']                         ='Admin/Update_pengumuman';
 // Login
 $route['Login']                                     ='Auth';
 $route['Login/Verifikasi']                          ='Auth/Login';

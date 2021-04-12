@@ -88,7 +88,7 @@ if ($this->session->flashdata('pesan')) {
                                         }
                                         echo "</td>";
                                         echo "<td>$tampilkan->pembuat</td>";
-                                        echo "<td><a href='Pengumuman/Edit/$tampilkan->id_pengumuman'><button class='btn btn-primary btn-sm' title='Edit'><li class='fa fa-edit'></li></button></a> <button class='btn btn-danger btn-sm' title='Hapus' onClick='hapus($tampilkan->id_pengumuman)'><li class='fa fa-trash'></li></button></td>";
+                                        echo "<td><a href=".base_url()."Pengumuman/Edit/".md5($tampilkan->id_pengumuman)."/".$tampilkan->id_pengumuman."><button class='btn btn-primary btn-sm' title='Edit'><li class='fa fa-edit'></li></button></a> <button class='btn btn-danger btn-sm' title='Hapus' onClick='hapus($tampilkan->id_pengumuman)'><li class='fa fa-trash'></li></button></td>";
 
                                         echo "</tr>";
                                     }
@@ -107,11 +107,11 @@ if ($this->session->flashdata('pesan')) {
     function hapus(id) {
         $('#form_hapus')[0].reset();
         $.ajax({
-            url: "<?php echo base_url('Profil/Get_id_profil_hapus') ?>/" + id,
+            url: "<?php echo base_url('Pengumuman/Get_id_pengumuman_hapus') ?>/" + id,
             type: "GET",
             dataType: "JSON",
             success: function(data) {
-                $('[name="id_profil_hapus"]').val(data.id_profil);
+                $('[name="id_pengumuman_hapus"]').val(data.id_pengumuman);
                 $('#modal-default').modal('show');
             },
             error: function(jqXHR, textStatus, errorThrown) {
@@ -132,10 +132,10 @@ if ($this->session->flashdata('pesan')) {
                     <span aria-hidden="true">&times;</span></button>
 
             </div>
-            <form action="<?php echo base_url() ?>Profil/hapus" method="POST" id="form_hapus">
+            <form action="<?php echo base_url() ?>Pengumuman/hapus" method="POST" id="form_hapus">
                 <div class="modal-body">
 
-                    <input type="hidden" name="id_profil_hapus" value="" id="id_profil_hapus">
+                    <input type="hidden" name="id_pengumuman_hapus" value="" id="id_pengumuman_hapus">
                     <input type="hidden" class='form-control' name="<?php echo $this->security->get_csrf_token_name() ?>" value="<?php echo $this->security->get_csrf_hash() ?>">
                     <p>Apakah anda yakin akan menghapus data tersebut &hellip;?</p>
                 </div>
