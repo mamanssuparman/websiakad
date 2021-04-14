@@ -24,7 +24,7 @@
                     <li><a href="general_elements.html">Data Kepala Sekolah</a></li>
                     <li><a href="<?php echo base_url() ?>Pegawai">Data Pendidik </a></li>
                     <li><a href="<?php echo base_url() ?>Kategori">Data Kategori </a></li>
-                    <li><a href="media_gallery.html">Data Berita </a></li>
+                    <li><a href="<?php echo base_url() ?>Berita">Data Berita </a></li>
                     <li><a href="<?php echo base_url() ?>Pengumuman">Data Pengumuman </a></li>
                     <li><a href="<?php echo base_url() ?>Profil">Data Profil </a></li>
                     <li><a href="<?php echo base_url() ?>Program-Keahlian">Data Program Keahlian </a></li>
@@ -36,7 +36,7 @@
             <li><a><i class="fa fa-clone"></i> Galery <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
                     <li><a href="tables.html">Video</a></li>
-                    <li><a href="tables_dynamic.html">Photos</a></li>
+                    <li><a href="<?php echo base_url() ?>Photos">Photos</a></li>
                 </ul>
             </li>
         </ul>

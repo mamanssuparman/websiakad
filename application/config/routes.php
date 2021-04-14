@@ -58,3 +58,16 @@ $route['Pengumuman/Update']                         ='Admin/Update_pengumuman';
 // Login
 $route['Login']                                     ='Auth';
 $route['Login/Verifikasi']                          ='Auth/Login';
+// Berita
+$route['Berita']                                    ='Admin/Berita';
+$route['Berita/Save']                               ='Admin/Save_berita';
+$route['Berita/Detail/(:any)/(:num)']               ='Admin/Detail_berita/$2/$1';
+$route['Berita/Get_id_berita_status/(:num)']        ='Admin/Get_id_berita_status/$1';
+$route['Berita/Aktifkan']                           ='Admin/Aktifkan_berita';
+$route['Berita/nonaktifkan']                        ='Admin/nonaktifkan_berita';
+$route['Berita/Edit/(:any)/(:num)']                 ='Admin/Edit_berita/$2/$1';
+$route['Berita/Update']                             ='Admin/Update_berita';
+// Galery
+$route['Photos']                                    ='Admin/Galery';
+$route['Photos/Add']                                ='Admin/Add_galery';
+$route['Photos/Simpan']                             ='Admin/Save_photos';

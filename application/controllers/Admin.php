@@ -338,11 +338,82 @@ class Admin extends CI_Controller
 		$this->form_validation->set_rules('judul', 'judul', 'required|htmlspecialchars', array('required' => 'Judul tidak boleh kosong'));
 		$this->form_validation->set_rules('isi', 'isi', 'required', array('required' => 'Isi tidak boleh kosong.!'));
 		if ($this->form_validation->run() == TRUE) {
-			$this->Modeldata->Update_pengumuman($this->input->post('id_pengumuman',TRUE));
-			$this->session->set_flashdata('pesan','Data pengumuman berhasil di perbaharui');
+			$this->Modeldata->Update_pengumuman($this->input->post('id_pengumuman', TRUE));
+			$this->session->set_flashdata('pesan', 'Data pengumuman berhasil di perbaharui');
 			redirect('Pengumuman');
 		} else {
 			echo "gagal";
+		}
+	}
+	// Berita
+	public function Berita()
+	{
+		$data['data_berita']					= $this->Modeldata->get_data_berita()->result();
+		$data['data_kategori']					= $this->Modeldata->get_data_kategori_active()->result();
+		$this->template->load('admin_template/halaman_master', 'data/berita', $data);
+	}
+	public function Save_berita()
+	{
+		// Validasi Form 
+		$this->form_validation->set_rules('judul', 'judul', 'required', array('required' => 'Judul tidak boleh kosong.!'));
+		$this->form_validation->set_rules('id_kategori', 'id_kategori', 'required', array('required' => 'Kategori tidak boleh kosong.!'));
+		$this->form_validation->set_rules('isi', 'isi', 'required', array('required' => 'Isi tidak boleh kosong.!'));
+		if ($this->form_validation->run() == TRUE) {
+			// Validasi berhasil 
+			$this->Modeldata->Simpan_berita('berita');
+			$this->session->set_flashdata('pesan', 'Data berita berhasil di simpan.!');
+			redirect('Berita');
+		} else {
+			// Validasi gagal
+			$data['data_berita']					= $this->Modeldata->get_data_berita()->result();
+			$data['data_kategori']					= $this->Modeldata->get_data_kategori_active()->result();
+			$this->template->load('admin_template/halaman_master', 'data/berita', $data);
+		}
+	}
+	public function Detail_berita($md5 = null, $id = null)
+	{
+
+		$konversi = md5($md5);
+		if ($konversi == $id) {
+			$data['data_detail_berita']				= $this->Modeldata->get_data_berita_by_id($md5)->result();
+			// $data['data_kategori']					= $this->Modeldata->get_data_kategori_active()->result();
+			$this->template->load('admin_template/halaman_master', 'data/detail_berita', $data);
+		} else {
+			echo "Gagal";
+		}
+	}
+	public function Get_id_berita_status($id = null)
+	{
+		$this->db->where('id_berita', $id);
+		$query = $this->db->get('berita')->row();
+		echo json_encode($query);
+	}
+	public function Edit_berita($md5 = null, $id = null)
+	{
+		$konversi = md5($md5);
+		if ($konversi == $id) {
+			$data['data_berita_edit']			= $this->Modeldata->get_data_berita_by_id($md5)->result();
+			$data['data_kategori']				= $this->Modeldata->get_data_kategori_active()->result();
+			$this->template->load('admin_template/halaman_master', 'data/edit_berita', $data);
+		} else {
+			echo "gagal";
+		}
+	}
+	public function Update_berita()
+	{
+		$this->form_validation->set_rules('judul', 'judul', 'required', array('required' => 'Judul tidak boleh kosong.!'));
+		$this->form_validation->set_rules('id_kategori', 'id_kategori', 'required', array('required' => 'Kategori tidak boleh kosong.!'));
+		$this->form_validation->set_rules('isi', 'isi', 'required', array('required' => 'Isi tidak boleh kosong.!'));
+		if ($this->form_validation->run() == TRUE) {
+			// Validasi berhasil 
+			$this->Modeldata->Update_berita($this->input->post('id_berita', TRUE));
+			$this->session->set_flashdata('pesan', 'Data berita berhasil di simpan.!');
+			redirect('Berita');
+		} else {
+			// Validasi gagal
+			$data['data_berita']					= $this->Modeldata->get_data_berita()->result();
+			$data['data_kategori']					= $this->Modeldata->get_data_kategori_active()->result();
+			$this->template->load('admin_template/halaman_master', 'data/berita', $data);
 		}
 	}
 	// Pegawai
@@ -351,6 +422,26 @@ class Admin extends CI_Controller
 		$data['data_pegawai']				= $this->Modeldata->get_data_pegawai()->result();
 		$data['data_role']					= $this->Modeldata->get_data_role()->result();
 		$this->template->load('admin_template/halaman_master', 'data/pegawai', $data);
+	}
+	public function Aktifkan_berita()
+	{
+		$this->form_validation->set_rules('id_berita_aktif', 'id_berita_aktif', 'required');
+		if ($this->form_validation->run() == TRUE) {
+			// validasi berhasil
+			$this->Modeldata->aktifkan_berita($this->input->post('id_berita_aktif', TRUE));
+			$this->session->set_flashdata('pesan', 'Data berita berhasil di aktifkan');
+			redirect('Berita');
+		}
+	}
+	public function nonaktifkan_berita()
+	{
+		$this->form_validation->set_rules('id_berita_nonaktif', 'id_berita_nonaktif', 'required');
+		if ($this->form_validation->run() == TRUE) {
+			// validasi berhasil
+			$this->Modeldata->nonaktifkan_berita($this->input->post('id_berita_nonaktif', TRUE));
+			$this->session->set_flashdata('pesan', 'Data berita berhasil di Non aktifkan');
+			redirect('Berita');
+		}
 	}
 	public function Savepegawai()
 	{
@@ -545,6 +636,60 @@ class Admin extends CI_Controller
 			// Validasi gagal
 			$this->session->set_flashdata('pesan', 'Data Role gagal di perbaharui');
 			redirect('Role');
+		}
+	}
+	// Galery
+	public function Galery()
+	{
+		$data['data_galery']			= $this->Modeldata->Get_data_galery()->result();
+		$data['data_kategori']			= $this->Modeldata->get_data_kategori()->result();
+		$this->template->load('admin_template/halaman_master', 'galery/photos', $data);
+	}
+	public function Add_galery()
+	{
+		$data['data_kategori']			= $this->Modeldata->get_data_kategori()->result();
+		$this->template->load('admin_template/halaman_master', 'galery/add_photos', $data);
+	}
+	public function Save_photos()
+	{
+		// Validasi Form
+		$this->form_validation->set_rules('judul', 'judul', 'required', array('required' => 'Judul tidak boleh kosong.!'));
+		$this->form_validation->set_rules('id_kategori', 'id_kategori', 'required', array('required' => 'Kategori belum di pilih.!'));
+		$this->form_validation->set_rules('isi', 'isi', 'required', array('required' => 'Deskripsi tidak boleh kosong.!'));
+		// $this->form_validation->set_rules('foto', 'foto', 'required', array('required' => 'Foto belum di pilih'));
+		$this->form_validation->set_rules('status_terbit', 'status_terbit', 'required', array('required' => 'Status terbit belum di pilih'));
+		if ($this->form_validation->run() == TRUE) {
+			// Validasi Berhasil 
+			$foto = $_FILES['foto']['name'];
+			// Pengkondisian Foto 
+			if (!empty($foto)) {
+				$acak = rand(1000, 9999);
+				$string = preg_replace('/[^a-zA-Z0-9 &%|{.}=,?!*()"-_+$@;<>]/', '', $this->input->post('judul', TRUE));
+				$trim = trim($string);
+				$pre_slug = strtolower(str_replace(" ", "-", $trim));
+				$slug = $acak . '-photos-' . $pre_slug . '.html';
+				$foto1 = $acak . '-images-' . md5($acak) . '.jpg';
+				$config['upload_path']		= './uploads/galery';
+				$config['allowed_types']	= 'jpg';
+				$config['max_size']			= 1024;
+				$config['file_name']		= $foto1;
+				$this->load->library('upload', $config);
+				if (!$this->upload->do_upload('foto')) {
+					$this->session->set_flashdata('pesan', 'Data gambar tidak sesuai.!!, Mohon isikan foto yang baik.!');
+					redirect('Photos/Add');
+				} else {
+					$this->Modeldata->Save_photos('galery', $foto1, $slug);
+					$this->session->set_flashdata('pesan', 'Data Photos berhasil di simpan.!');
+					redirect('Photos/Add');
+				}
+			} else {
+				$data['data_kategori']			= $this->Modeldata->get_data_kategori()->result();
+				$this->session->set_flashdata('pesan', 'Data foto harap di isi.!');
+				$this->template->load('admin_template/halaman_master', 'galery/add_photos', $data);
+			}
+		} else {
+			$data['data_kategori']			= $this->Modeldata->get_data_kategori()->result();
+			$this->template->load('admin_template/halaman_master', 'galery/add_photos', $data);
 		}
 	}
 }

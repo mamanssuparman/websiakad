@@ -91,6 +91,10 @@ class Modeldata extends CI_Model
         $this->db->where('id_kategori', $id);
         $this->db->delete('categor');
     }
+    public function get_data_kategori_active()
+    {
+        return $this->db->get_where('categor', array('status_terbit' => 'ya'));
+    }
     // Profil
     public function get_data_profil()
     {
@@ -394,16 +398,16 @@ class Modeldata extends CI_Model
             'slug'          => $slug,
             'id_user'       => $this->session->userdata('id_user'),
         );
-        $this->db->insert('pengumuman',$isidata);
+        $this->db->insert('pengumuman', $isidata);
     }
-    public function Hapus_pengumuman($tabel,$id_pengumuman)
+    public function Hapus_pengumuman($tabel, $id_pengumuman)
     {
-        $this->db->where('id_pengumuman',$id_pengumuman);
+        $this->db->where('id_pengumuman', $id_pengumuman);
         $this->db->delete('pengumuman');
     }
     public function get_data_pengumuman_by_id($id)
     {
-        return $this->db->get_where('pengumuman',array('id_pengumuman'=>$id));
+        return $this->db->get_where('pengumuman', array('id_pengumuman' => $id));
     }
     public function Update_pengumuman($id)
     {
@@ -412,20 +416,20 @@ class Modeldata extends CI_Model
         $trim = trim($string);
         $pre_slug = strtolower(str_replace(" ", "-", $trim));
         $slug = $acak . '-pengumuman-' . $pre_slug . '.html';
-        $isidata=array(
-            'judul'         =>$this->input->post('judul',TRUE),
-            'isi'           =>$this->input->post('isi',TRUE),
-            'slug'          =>$slug,
+        $isidata = array(
+            'judul'         => $this->input->post('judul', TRUE),
+            'isi'           => $this->input->post('isi', TRUE),
+            'slug'          => $slug,
 
         );
         $this->db->set($isidata);
-        $this->db->where('id_pengumuman',$id);
+        $this->db->where('id_pengumuman', $id);
         $this->db->update('pengumuman');
     }
     // Pegawai
     public function get_data_pegawai()
     {
-        return $this->db->get('vw_pengumuman_detail');
+        return $this->db->get('vw_role_pegawai');
     }
     public function get_data_pegawai_by_id($id)
     {
@@ -582,5 +586,80 @@ class Modeldata extends CI_Model
         $this->db->set($isidata);
         $this->db->where('id_role', $id);
         $this->db->update('role');
+    }
+    // Berita
+    public function get_data_berita()
+    {
+        return $this->db->get('vw_berita_detail');
+    }
+    public function Simpan_berita($tabel)
+    {
+        $acak = rand(1000, 9999);
+        $string = preg_replace('/[^a-zA-Z0-9 &%|{.}=,?!*()"-_+$@;<>]/', '', $this->input->post('judul', TRUE));
+        $trim = trim($string);
+        $pre_slug = strtolower(str_replace(" ", "-", $trim));
+        $slug = $acak . '-berita-' . $pre_slug . '.html';
+        $isidata = array(
+            'judul'            => $this->input->post('judul', TRUE),
+            'isi'            => $this->input->post('isi'),
+            'id_kategori'    => $this->input->post('id_kategori', TRUE),
+            'id_user'        => $this->session->userdata('id_user'),
+            'slug'          => $slug
+        );
+        $this->db->insert($tabel, $isidata);
+    }
+    public function get_data_berita_by_id($id)
+    {
+        return $this->db->get_where('vw_berita_detail', array('id_berita' => $id));
+    }
+    public function aktifkan_berita($id)
+    {
+        $this->db->where('id_berita', $id);
+        $this->db->set(array('status_terbit' => 'ya'));
+        $this->db->update('berita');
+    }
+    public function nonaktifkan_berita($id)
+    {
+        $this->db->where('id_berita', $id);
+        $this->db->set(array('status_terbit' => 'tidak'));
+        $this->db->update('berita');
+    }
+    public function Update_berita($id)
+    {
+        $acak = rand(1000, 9999);
+        $string = preg_replace('/[^a-zA-Z0-9 &%|{.}=,?!*()"-_+$@;<>]/', '', $this->input->post('judul', TRUE));
+        $trim = trim($string);
+        $pre_slug = strtolower(str_replace(" ", "-", $trim));
+        $slug = $acak . '-berita-' . $pre_slug . '.html';
+        $isidata = array(
+            'judul'            => $this->input->post('judul', TRUE),
+            'isi'            => $this->input->post('isi'),
+            'id_kategori'    => $this->input->post('id_kategori', TRUE),
+            'id_user'        => $this->session->userdata('id_user'),
+            'slug'          => $slug
+        );
+        $this->db->set($isidata);
+        $this->db->where('id_berita', $id);
+        $this->db->update('berita');
+        // $this->db->insert($tabel,$isidata);
+    }
+    // Galery
+    public function Get_data_galery()
+    {
+        return $this->db->get_where('vw_galery_detail',array('jenis'=>'gambar'));
+    }
+    public function Save_photos($tabel,$nama_foto,$slug)
+    {
+        $isidata=array(
+            'judul'             =>$this->input->post('judul',TRUE),
+            'deskripsi'         =>$this->input->post('isi',TRUE),
+            'id_kategori'       =>$this->input->post('id_kategori',TRUE),
+            'id_user'           =>$this->session->userdata('id_user'),
+            'gambar'            =>$nama_foto,
+            'jenis'             =>'gambar',
+            'status_terbit'    =>$this->input->post('status_terbit',TRUE),
+            'slug'              =>$slug,
+        );
+        $this->db->insert($tabel,$isidata);
     }
 }

@@ -35,4 +35,10 @@
     <!-- Custom Theme Style -->
     <link href="<?php echo base_url() ?>assets/build/css/custom.min.css" rel="stylesheet">
     <script src="<?php echo base_url('assets/ckeditor/ckeditor.js');?>"></script>
+    <style>
+      #img {
+      width: auto;
+      height: auto;
+      }
+    </style>
   </head>
