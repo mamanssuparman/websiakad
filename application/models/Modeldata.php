@@ -95,6 +95,18 @@ class Modeldata extends CI_Model
     {
         return $this->db->get_where('categor', array('status_terbit' => 'ya'));
     }
+    public function Nonaktif_kategori($id)
+    {
+        $this->db->set(array('status_terbit'=>'tidak'));
+        $this->db->where('id_kategori',$id);
+        $this->db->update('categor');
+    }
+    public function Aktif_kategori($id)
+    {
+        $this->db->set(array('status_terbit'=>'ya'));
+        $this->db->where('id_kategori',$id);
+        $this->db->update('categor');
+    }
     // Profil
     public function get_data_profil()
     {
@@ -189,6 +201,18 @@ class Modeldata extends CI_Model
             $this->db->where('id_profil', $this->input->post('id_profil'));
             $this->db->update('profil');
         }
+    }
+    public function Nonaktif_profil($id)
+    {
+        $this->db->set(array('status_terbit'=>'tidak'));
+        $this->db->where('id_profil',$id);
+        $this->db->update('profil');
+    }
+    public function Aktif_profil($id)
+    {
+        $this->db->set(array('status_terbit'=>'ya'));
+        $this->db->where('id_profil',$id);
+        $this->db->update('profil');
     }
     // Profil Jurusan
     public function get_data_proju()
@@ -285,6 +309,18 @@ class Modeldata extends CI_Model
             $this->db->update('proju');
         }
     }
+    public function Nonaktif_proju($id)
+    {
+        $this->db->set(array('status_terbit'=>'tidak'));
+        $this->db->where('id_proju',$id);
+        $this->db->update('proju');
+    }
+    public function Aktif_proju($id)
+    {
+        $this->db->set(array('status_terbit'=>'ya'));
+        $this->db->where('id_proju',$id);
+        $this->db->update('proju');
+    }
     // Program Keahlian
     public function get_data_program_keahlian()
     {
@@ -356,7 +392,7 @@ class Modeldata extends CI_Model
             $slug1 = $acak . '-' . 'program-keahlian-' . $pre_slug . '1.html';
             $isidata = array(
                 'judul'          => $this->input->post('nama_program_keahlian', TRUE),
-                'deskripsi'           => $this->input->post('deskripsi', TRUE),
+                'deskripsi'      => $this->input->post('deskripsi', TRUE),
                 'status_terbit' => $this->input->post('status_terbit', TRUE),
                 'slug'          => $slug1,
             );
@@ -371,7 +407,7 @@ class Modeldata extends CI_Model
             $slug = $acak . '-' . 'program_keahlian-' . $pre_slug . '.html';
             $isidata = array(
                 'judul'          => $this->input->post('nama_program_keahlian', TRUE),
-                'deskripsi'           => $this->input->post('deskripsi', TRUE),
+                'deskripsi'      => $this->input->post('deskripsi', TRUE),
                 'status_terbit' => $this->input->post('status_terbit', TRUE),
                 'slug'          => $slug,
             );
@@ -379,6 +415,18 @@ class Modeldata extends CI_Model
             $this->db->where('id_program_keahlian', $id);
             $this->db->update('programkeahlian');
         }
+    }
+    public function Nonaktif_program_keahlian($id)
+    {
+        $this->db->set(array('status_terbit'=>'tidak'));
+        $this->db->where('id_program_keahlian',$id);
+        $this->db->update('programkeahlian');
+    }
+    public function Aktif_program_keahlian($id)
+    {
+        $this->db->set(array('status_terbit'=>'ya'));
+        $this->db->where('id_program_keahlian',$id);
+        $this->db->update('programkeahlian');
     }
     // Pengumuman
     public function get_data_pengumuman()
@@ -424,6 +472,18 @@ class Modeldata extends CI_Model
         );
         $this->db->set($isidata);
         $this->db->where('id_pengumuman', $id);
+        $this->db->update('pengumuman');
+    }
+    public function Nonaktif_pengumuman($id)
+    {
+        $this->db->set(array('status_terbit'=>'tidak'));
+        $this->db->where('id_pengumuman',$id);
+        $this->db->update('pengumuman');
+    }
+    public function Aktif_pengumuman($id)
+    {
+        $this->db->set(array('status_terbit'=>'ya'));
+        $this->db->where('id_pengumuman',$id);
         $this->db->update('pengumuman');
     }
     // Pegawai
@@ -543,7 +603,7 @@ class Modeldata extends CI_Model
     }
     public function update_data_account($tabel, $id_user)
     {
-        $hash_password = password_hash($this->input->post('password', TRUE), PASSWORD_DEFAULT);
+        $hash_password = password_hash($this->input->post('new_password', TRUE), PASSWORD_DEFAULT);
         $isidata = array(
             'username'           => $this->input->post('username', TRUE),
             'pasword'            => $hash_password,
@@ -555,6 +615,16 @@ class Modeldata extends CI_Model
         // Update user login
         // $this->db->set->()
     }
+    public function get_data_foto_by_id($id)
+    {
+        return $this->db->get_where('pegawai',array('id_user'=>$id));
+    }
+    public function update_foto_pegawai($tabel,$foto,$slug)
+    {
+        $this->db->set(array('foto'=>$foto,'slug'=>$slug));
+        $this->db->where('id_user',$this->input->post('id_user',TRUE));
+        $this->db->update($tabel);
+    }
     public function update_data_account_no_new_password($tabel, $id_user)
     {
         $isidata = array(
@@ -565,10 +635,26 @@ class Modeldata extends CI_Model
         $this->db->where('id_user', $id_user);
         $this->db->update($tabel);
     }
+    public function Aktifkan_pegawai($id)
+    {
+        $this->db->set(array('status_terbit'=>'ya'));
+        $this->db->where('id_user',$id);
+        $this->db->update('pegawai');
+    }
+    public function Nonaktifkan_pegawai($id)
+    {
+        $this->db->set(array('status_terbit'=>'tidak'));
+        $this->db->where('id_user',$id);
+        $this->db->update('pegawai');
+    }
     // Management
     public function get_data_role()
     {
         return $this->db->get('role');
+    }
+    public function get_data_role_by_id($id)
+    {
+        return $this->db->get_where('role',array('id_role'=>$id));
     }
     public function simpan_role()
     {
@@ -586,6 +672,29 @@ class Modeldata extends CI_Model
         $this->db->set($isidata);
         $this->db->where('id_role', $id);
         $this->db->update('role');
+    }
+    public function get_data_access_menu($id)
+    {
+       $this->db->where('id_role',$id);
+       return $this->db->get('vw_role_access_menu');
+    }
+    public function Aktifkan_menu($id)
+    {
+        $this->db->set(array('status'=>'1'));
+        $this->db->where('id_access_menu',$id);
+        $this->db->update('user_access_menu');
+    }
+    public function Nonaktifkan_menu($id)
+    {
+        $this->db->set(array('status'=>'0'));
+        $this->db->where('id_access_menu',$id);
+        $this->db->update('user_access_menu');
+    }
+    public function Nonaktifkanmenu($id)
+    {
+        $this->db->set(array('status_active'=>'0'));
+        $this->db->where('id_menu',$id);
+        $this->db->update('user_menu');
     }
     // Berita
     public function get_data_berita()
@@ -661,5 +770,101 @@ class Modeldata extends CI_Model
             'slug'              =>$slug,
         );
         $this->db->insert($tabel,$isidata);
+    }
+    public function Nonaktifkan_photos($id)
+    {
+        $this->db->set(array('status_terbit'=>'tidak'));
+        $this->db->where('id_galery',$id);
+        $this->db->update('galery');
+    }
+    public function Aktifkan_photos($id)
+    {
+        $this->db->set(array('status_terbit'=>'ya'));
+        $this->db->where('id_galery',$id);
+        $this->db->update('galery');
+    }
+    public function Get_photos_by_id($id)
+    {
+        return $this->db->get_where('vw_galery_detail',array('id_galery'=>$id));
+    }
+    public function Update_photos($tabel,$foto,$slug)
+    {
+        $isidata=array(
+            'judul'         =>$this->input->post('judul',TRUE),
+            // 'tanggal'       =>date('now'),
+            'deskripsi'     =>$this->input->post('isi',TRUE),
+            'id_kategori'   =>$this->input->post('id_kategori',TRUE),
+            'id_user'       =>$this->session->userdata('id_user'),
+            'gambar'        =>$foto,
+            'status_terbit' =>$this->input->post('status_terbit',TRUE),
+            'slug'          =>$slug,
+        );
+        $this->db->set($isidata);
+        $this->db->where('id_galery',$this->input->post('id_galery_edit',TRUE));
+        $this->db->update($tabel);
+    }
+    public function Update_nophotos($tabel)
+    {
+        $isidata=array(
+            'judul'         =>$this->input->post('judul',TRUE),
+            'deskripsi'     =>$this->input->post('isi',TRUE),
+            // 'tanggal'       =>date('now'),
+            'id_kategori'   =>$this->input->post('id_kategori',TRUE),
+            'id_user'       =>$this->session->userdata('id_user'),
+            'status_terbit' =>$this->input->post('status_terbit',TRUE),
+        );
+        $this->db->set($isidata);
+        $this->db->where('id_galery',$this->input->post('id_galery_edit',TRUE));
+        $this->db->update($tabel);
+    }
+    // Videos
+    public function get_data_videos()
+    {
+        return $this->db->get_where('vw_galery_detail',array('jenis'=>'video'));
+    }
+    public function Save_videos()
+    {
+        $isidata=array(
+            'judul'             =>$this->input->post('judul',TRUE),
+            'deskripsi'         =>$this->input->post('isi',TRUE),
+            'id_kategori'       =>$this->input->post('id_kategori',TRUE),
+            'id_user'           =>$this->session->userdata('id_user'),
+            'jenis'             =>'video',
+            'url'               =>$this->input->post('url',TRUE),
+            'status_terbit'    =>$this->input->post('status_terbit',TRUE),
+        );
+        $this->db->insert('galery',$isidata);
+    }
+    public function Get_videos_by_id($id)
+    {
+        $this->db->where('id_galery',$id);
+        return $this->db->get('vw_galery_detail');
+    }
+    public function Nonaktifkan_videos($id)
+    {
+        $this->db->set(array('status_terbit'=>'tidak'));
+        $this->db->where('id_galery',$id);
+        $this->db->update('galery');
+    }
+    public function Aktifkan_videos($id)
+    {
+        $this->db->set(array('status_terbit'=>'ya'));
+        $this->db->where('id_galery',$id);
+        $this->db->update('galery');
+    }
+    public function Update_videos()
+    {
+        $isidata=array(
+            'judul'             =>$this->input->post('judul',TRUE),
+            'deskripsi'         =>$this->input->post('isi',TRUE),
+            'id_kategori'       =>$this->input->post('id_kategori',TRUE),
+            'id_user'           =>$this->session->userdata('id_user'),
+            'jenis'             =>'video',
+            'url'               =>$this->input->post('url',TRUE),
+            'status_terbit'    =>$this->input->post('status_terbit',TRUE),
+        );
+        $this->db->set($isidata);
+        $this->db->where('id_galery',$this->input->post('id_galery'));
+        $this->db->update('galery');
     }
 }

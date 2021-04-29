@@ -9,7 +9,7 @@ if ($this->session->flashdata('pesan')) {
     <div class="col-md-12 col-sm-12  ">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Form Input Data Kategori</h2>
+                <h2><?php echo $title_form ?></h2>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -48,8 +48,8 @@ if ($this->session->flashdata('pesan')) {
                         <input type="hidden" class='form-control' name="<?php echo $this->security->get_csrf_token_name() ?>" value="<?php echo $this->security->get_csrf_hash() ?>">
                         <div class="form-group row">
                             <div class="col-md-9 offset-md-3">
-                                <button type="button" class="btn btn-primary">Cancel</button>
-                                <button type="submit" class="btn btn-success">Submit</button>
+                            <a href="javascript:window.history.go(-1);"><button type="button" class="btn btn-warning"><li class="fa fa-undo"></li> Kembali</button></a>
+                                <button type="submit" class="btn btn-success"><li class="fa fa-save"></li> Perbaharui</button>
                             </div>
                         </div>
                     </form>

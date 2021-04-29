@@ -8,7 +8,7 @@ if ($this->session->flashdata('pesan')) {
     <div class="col-md-12 col-sm-12  ">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Form Input Data Pengumuman</h2>
+                <h2><?php echo $title_form ?></h2>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -34,15 +34,12 @@ if ($this->session->flashdata('pesan')) {
                     </div>
                     <div class="form-group row">
                         <div class="col-md-9 offset-md-3">
-                            <button type="button" class="btn btn-success">
-                                <li class="fa fa-undo"></li> Batal
-                            </button>
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-success">
                                 <li class="fa fa-save"></li> Simpan
                             </button>
                         </div>
                     </div>
-                    
+
                     <input type="hidden" class='form-control' name="<?php echo $this->security->get_csrf_token_name() ?>" value="<?php echo $this->security->get_csrf_hash() ?>">
                 </form>
             </div>
@@ -54,7 +51,7 @@ if ($this->session->flashdata('pesan')) {
     <div class="col-md-12 col-sm-12 ">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Button Example <small>Users</small></h2>
+                <h2><?php echo $title_data ?></h2>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -82,13 +79,13 @@ if ($this->session->flashdata('pesan')) {
                                         echo "<td>";
                                         // Pengkondisian Badge Status Terbit
                                         if ($tampilkan->status_terbit == 'ya') {
-                                            echo "<span class='badge badge-primary'>YA</span>";
+                                            echo "<input type='checkbox' class='js-switch' checked onChange='Nonaktif($tampilkan->id_pengumuman)'/>";
                                         } else {
-                                            echo "<span class='badge badge-warning'>TIDAK</span>";
+                                            echo "<input type='checkbox' class='js-switch' onChange='Aktif($tampilkan->id_pengumuman)'/>";
                                         }
                                         echo "</td>";
                                         echo "<td>$tampilkan->pembuat</td>";
-                                        echo "<td><a href=".base_url()."Pengumuman/Edit/".md5($tampilkan->id_pengumuman)."/".$tampilkan->id_pengumuman."><button class='btn btn-primary btn-sm' title='Edit'><li class='fa fa-edit'></li></button></a> <button class='btn btn-danger btn-sm' title='Hapus' onClick='hapus($tampilkan->id_pengumuman)'><li class='fa fa-trash'></li></button></td>";
+                                        echo "<td><a href=" . base_url() . "Pengumuman/Edit/" . md5($tampilkan->id_pengumuman) . "/" . $tampilkan->id_pengumuman . "><button class='btn btn-warning btn-sm' title='Edit'><li class='fa fa-edit'></li></button></a> <button class='btn btn-danger btn-sm' title='Hapus' onClick='hapus($tampilkan->id_pengumuman)'><li class='fa fa-trash'></li></button></td>";
 
                                         echo "</tr>";
                                     }
@@ -113,6 +110,34 @@ if ($this->session->flashdata('pesan')) {
             success: function(data) {
                 $('[name="id_pengumuman_hapus"]').val(data.id_pengumuman);
                 $('#modal-default').modal('show');
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert('Gagal ambil ajax');
+            }
+        });
+    }
+
+    function Nonaktif(id) {
+        $.ajax({
+            url: "<?php echo base_url('Pengumuman/Nonaktif') ?>/" + id,
+            type: "GET",
+            dataType: "JSON",
+            success: function(data) {
+                location.reload();
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert('Gagal ambil ajax');
+            }
+        });
+    }
+
+    function Aktif(id) {
+        $.ajax({
+            url: "<?php echo base_url('Pengumuman/Aktif') ?>/" + id,
+            type: "GET",
+            dataType: "JSON",
+            success: function(data) {
+                location.reload();
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 alert('Gagal ambil ajax');

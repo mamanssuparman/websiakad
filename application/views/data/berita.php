@@ -9,7 +9,7 @@ if ($this->session->flashdata('pesan')) {
     <div class="col-md-12 col-sm-12  ">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Form Input Data Berita</h2>
+                <h2><?php echo $title_form ?></h2>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -58,10 +58,7 @@ if ($this->session->flashdata('pesan')) {
                     <input type="hidden" class='form-control' name="<?php echo $this->security->get_csrf_token_name() ?>" value="<?php echo $this->security->get_csrf_hash() ?>">
                     <div class="form-group row">
                         <div class="col-md-9 offset-md-3">
-                            <button type="button" class="btn btn-success">
-                                <li class="fa fa-undo"></li> Batal
-                            </button>
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-success">
                                 <li class="fa fa-save"></li> Simpan
                             </button>
                         </div>
@@ -76,7 +73,7 @@ if ($this->session->flashdata('pesan')) {
     <div class="col-md-12 col-sm-12 ">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Button Example <small>Users</small></h2>
+                <h2><?php echo $title_data ?></h2>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -101,7 +98,7 @@ if ($this->session->flashdata('pesan')) {
                                             <td><?php echo $tampilkan_berita->judul ?></td>
                                             <td><?php echo $tampilkan_berita->pembuat ?></td>
                                             <td><?php echo $tampilkan_berita->nama ?></td>
-                                            <td>
+                                            <td align="center">
                                                 <?php
                                                 if ($tampilkan_berita->status_terbit == 'ya') {
                                                     echo "<span class='badge badge-primary'>YA</span>";
@@ -111,7 +108,7 @@ if ($this->session->flashdata('pesan')) {
                                                 echo "</td>";
                                                 ?>
                                             </td>
-                                            <td><a href="<?php echo base_url() ?>Berita/Detail/<?php echo md5($tampilkan_berita->id_berita) ?>/<?php echo $tampilkan_berita->id_berita ?>"><button class="btn btn-warning btn-sm" title="Detail"><li class="fa fa-bars"></li></button></a> |  
+                                            <td align="center"><a href="<?php echo base_url() ?>Berita/Detail/<?php echo md5($tampilkan_berita->id_berita) ?>/<?php echo $tampilkan_berita->id_berita ?>"><button class="btn btn-warning btn-sm" title="Detail"><li class="fa fa-bars"></li></button></a> |  
                                                 <?php 
                                                     // Pengkondisian tombol aktiv dan tidak aktiv
                                                     if ($tampilkan_berita->status_terbit=='ya') {

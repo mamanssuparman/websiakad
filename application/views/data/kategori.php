@@ -9,7 +9,7 @@ if ($this->session->flashdata('pesan')) {
     <div class="col-md-12 col-sm-12  ">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Form Input Data Kategori</h2>
+                <h2><?php echo $title_form ?></h2>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -46,8 +46,9 @@ if ($this->session->flashdata('pesan')) {
                     <input type="hidden" class='form-control' name="<?php echo $this->security->get_csrf_token_name() ?>" value="<?php echo $this->security->get_csrf_hash() ?>">
                     <div class="form-group row">
                         <div class="col-md-9 offset-md-3">
-                            <button type="button" class="btn btn-success"><li class="fa fa-undo"></li> Batal</button>
-                            <button type="submit" class="btn btn-primary"><li class="fa fa-save"></li> Simpan</button>
+                            <button type="submit" class="btn btn-success">
+                                <li class="fa fa-save"></li> Simpan
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -60,7 +61,7 @@ if ($this->session->flashdata('pesan')) {
     <div class="col-md-12 col-sm-12 ">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Button Example <small>Users</small></h2>
+                <h2><?php echo $title_data ?></small></h2>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -84,15 +85,15 @@ if ($this->session->flashdata('pesan')) {
                                         echo "<td>$tampilkan_kategori->id_kategori</td>";
                                         echo "<td>$tampilkan_kategori->nama</td>";
                                         echo "<td>$tampilkan_kategori->deskripsi</td>";
-                                        echo "<td>";
+                                        echo "<td align='center'>";
                                         // Pengkondisian Badge Status Terbit
                                         if ($tampilkan_kategori->status_terbit == 'ya') {
-                                            echo "<span class='badge badge-primary'>YA</span>";
+                                            echo "<input type='checkbox' class='js-switch' checked onChange='Nonaktif($tampilkan_kategori->id_kategori)'/>";
                                         } else {
-                                            echo "<span class='badge badge-warning pull-right'>TIDAK</span>";
+                                            echo "<input type='checkbox' class='js-switch' onChange='Aktif($tampilkan_kategori->id_kategori)'/>";
                                         }
                                         echo "</td>";
-                                        echo "<td><a href='Kategori/Edit/$tampilkan_kategori->id_kategori'><button class='btn btn-primary btn-sm' title='Edit'><li class='fa fa-edit'></li></button></a> <button class='btn btn-danger btn-sm' title='Hapus' onClick='hapus($tampilkan_kategori->id_kategori)'><li class='fa fa-trash'></li></button></td>";
+                                        echo "<td align='center'><a href=".base_url()."Kategori/Edit/".$tampilkan_kategori->id_kategori."><button class='btn btn-info btn-sm' title='Edit'><li class='fa fa-edit'></li></button></a> <button class='btn btn-danger btn-sm' title='Hapus' onClick='hapus($tampilkan_kategori->id_kategori)'><li class='fa fa-trash'></li></button></td>";
                                         echo "</tr>";
                                     }
                                     ?>
@@ -123,6 +124,33 @@ if ($this->session->flashdata('pesan')) {
             }
         });
     }
+
+    function Nonaktif(id) {
+        $.ajax({
+            url: "<?php echo base_url('Kategori/Nonaktif') ?>/" + id,
+            type: "GET",
+            dataType: "JSON",
+            success: function(data) {
+                location.reload();
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert('Gagal Eksekusi');
+            }
+        });
+    }
+    function Aktif(id){
+        $.ajax({
+            url: "<?php echo base_url('Kategori/Aktif') ?>/" + id,
+            type: "GET",
+            dataType: "JSON",
+            success: function(data) {
+                location.reload();
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert('Gagal Eksekusi');
+            }
+        });
+    }
 </script>
 <!-- Modal -->
 <div class="modal fade" id="modal-default">
@@ -147,7 +175,7 @@ if ($this->session->flashdata('pesan')) {
                     <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">
                         <li class="fa fa-undo"></li> Batal
                     </button>
-                    <button type="submit" class="btn btn-primary btn-sm">
+                    <button type="submit" class="btn btn-success btn-sm">
                         <li class="fa fa-check"></li> Ya
                     </button>
                 </div>

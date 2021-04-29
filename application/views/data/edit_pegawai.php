@@ -11,7 +11,7 @@ if ($this->session->flashdata('pesan')) {
         <div class="col-md-12 col-sm-12  ">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>Form Update Data Pegawai</h2>
+                    <h2><?php echo $title_form ?></h2>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
@@ -172,10 +172,7 @@ if ($this->session->flashdata('pesan')) {
 
                         <div class="form-group row">
                             <div class="col-md-9 offset-md-3">
-                                <button type="button" class="btn btn-success">
-                                    <li class="fa fa-undo"></li> Batal
-                                </button>
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-info">
                                     <li class="fa fa-save"></li> Perbaharui
                                 </button>
                             </div>

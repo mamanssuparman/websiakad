@@ -8,7 +8,7 @@ if ($this->session->flashdata('pesan')) {
     <div class="col-md-12 col-sm-12  ">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Form Input Data Profil</h2>
+                <h2><?= $title_form ?></h2>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -43,10 +43,7 @@ if ($this->session->flashdata('pesan')) {
                     </div>
                     <div class="form-group row">
                         <div class="col-md-9 offset-md-3">
-                            <button type="button" class="btn btn-success">
-                                <li class="fa fa-undo"></li> Batal
-                            </button>
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-success">
                                 <li class="fa fa-save"></li> Simpan
                             </button>
                         </div>
@@ -62,7 +59,7 @@ if ($this->session->flashdata('pesan')) {
     <div class="col-md-12 col-sm-12 ">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Button Example <small>Users</small></h2>
+                <h2><?= $title_data ?></h2>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -71,7 +68,7 @@ if ($this->session->flashdata('pesan')) {
                         <div class="card-box table-responsive">
                             <table id="datatable-buttons" class="table table-striped table-bordered table-hover" style="width:100%">
                                 <thead>
-                                    <tr>
+                                    <tr align="center">
                                         <th>ID Profil</th>
                                         <th>Nama</th>
                                         <th>Status Terbit</th>
@@ -84,16 +81,15 @@ if ($this->session->flashdata('pesan')) {
                                         echo "<tr>";
                                         echo "<td>$tampilkan->id_profil</td>";
                                         echo "<td>$tampilkan->nama</td>";
-                                        echo "<td>";
+                                        echo "<td align='center'>";
                                         // Pengkondisian Badge Status Terbit
                                         if ($tampilkan->status_terbit == 'ya') {
-                                            echo "<span class='badge badge-primary'>YA</span>";
+                                            echo "<input type='checkbox' class='js-switch' checked onChange='Nonaktif($tampilkan->id_profil)'/>";
                                         } else {
-                                            echo "<span class='badge badge-warning'>TIDAK</span>";
+                                            echo "<input type='checkbox' class='js-switch' onChange='Aktif($tampilkan->id_profil)'/>";
                                         }
                                         echo "</td>";
-                                        echo "<td><a href='Profil/Edit/$tampilkan->id_profil'><button class='btn btn-primary btn-sm' title='Edit'><li class='fa fa-edit'></li></button></a> <button class='btn btn-danger btn-sm' title='Hapus' onClick='hapus($tampilkan->id_profil)'><li class='fa fa-trash'></li></button></td>";
-
+                                        echo "<td align='center'><a href=" . base_url() . "Profil/Edit/" . md5($tampilkan->id_profil) . "/" . $tampilkan->id_profil . "><button class='btn btn-success btn-sm' title='Edit'><li class='fa fa-edit'></li></button></a> <button class='btn btn-danger btn-sm' title='Hapus' onClick='hapus($tampilkan->id_profil)'><li class='fa fa-trash'></li></button></td>";
                                         echo "</tr>";
                                     }
                                     ?>
@@ -120,6 +116,34 @@ if ($this->session->flashdata('pesan')) {
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 alert('Gagal ambil ajax');
+            }
+        });
+    }
+
+    function Nonaktif(id) {
+        $.ajax({
+            url: "<?= base_url('Profil/Nonaktif') ?>/" + id,
+            type: "GET",
+            dataType: "JSON",
+            success: function(data) {
+                location.reload();
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert('Gagal Aksi');
+            }
+        });
+    }
+
+    function Aktif(id) {
+        $.ajax({
+            url: "<?= base_url('Profil/Aktif') ?>/" + id,
+            type: "GET",
+            dataType: "JSON",
+            success: function(data) {
+                location.reload();
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert('Gagal Aksi');
             }
         });
     }

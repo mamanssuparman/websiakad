@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="icon" href="images/favicon.ico" type="image/ico" />
+	  <link rel="icon" href="images/favicon.ico" type="image/ico" />
 
     <title>Gentelella Alela! | </title>
 
@@ -31,7 +31,7 @@
     <link href="<?php echo base_url() ?>assets/vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/>
     <!-- bootstrap-daterangepicker -->
     <link href="<?php echo base_url() ?>assets/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
-
+    <link href="<?php echo base_url() ?>assets/vendors/switchery/dist/switchery.min.css" rel="stylesheet">
     <!-- Custom Theme Style -->
     <link href="<?php echo base_url() ?>assets/build/css/custom.min.css" rel="stylesheet">
     <script src="<?php echo base_url('assets/ckeditor/ckeditor.js');?>"></script>

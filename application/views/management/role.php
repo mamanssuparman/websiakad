@@ -34,7 +34,7 @@ if ($this->session->flashdata('pesan')) {
                                         echo "<tr>";
                                         echo "<td>$tampilkan_role->id_role</td>";
                                         echo "<td>$tampilkan_role->nama_role</td>";
-                                        echo "<td><label class='badge badge-warning'>Access</label> | <label class='badge badge-success' onClick='Edit($tampilkan_role->id_role)'>Edit</label></td>";
+                                        echo "<td><a href=".base_url()."Role/Access/".md5($tampilkan_role->id_role)."/".$tampilkan_role->id_role."><label class='badge badge-warning'>Access</label></a> | <label class='badge badge-success' onClick='Edit($tampilkan_role->id_role)'>Edit</label></td>";
                                         echo "</tr>";
                                     }
                                     ?>

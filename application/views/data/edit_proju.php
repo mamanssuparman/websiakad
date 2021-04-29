@@ -9,7 +9,7 @@ if ($this->session->flashdata('pesan')) {
     <div class="col-md-12 col-sm-12  ">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Update Data Profil Jurusan</h2>
+                <h2><?= $title_form ?></h2>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -21,7 +21,7 @@ if ($this->session->flashdata('pesan')) {
                         <div class="form-group row">
                             <label class="control-label col-md-3 col-sm-3 col-xs-3">Nama Profil Jurusan</label>
                             <div class="col-md-9 col-sm-9 col-xs-9">
-                                <input type="text" class="form-control" name="id_proju" value="<?php echo $tampilkan_proju->id_proju ?>">
+                                <input type="hidden" class="form-control" name="id_proju" value="<?php echo $tampilkan_proju->id_proju ?>">
                                 <input type="text" class="form-control" name="nama_proju" value="<?php echo $tampilkan_proju->judul ?>">
                                 <span>
                                     <font color="red"><?php echo form_error('nama_proju') ?></font>
@@ -51,11 +51,13 @@ if ($this->session->flashdata('pesan')) {
                         <input type="hidden" class='form-control' name="<?php echo $this->security->get_csrf_token_name() ?>" value="<?php echo $this->security->get_csrf_hash() ?>">
                         <div class="form-group row">
                             <div class="col-md-9 offset-md-3">
-                                <button type="button" class="btn btn-success">
-                                    <li class="fa fa-undo"></li> Batal
-                                </button>
-                                <button type="submit" class="btn btn-primary">
-                                    <li class="fa fa-save"></li> Simpan
+                                <a href="javascript:window.history.go(-1)">
+                                    <button type="button" class="btn btn-warning">
+                                        <li class="fa fa-undo"></li> Kembali
+                                    </button>
+                                </a>
+                                <button type="submit" class="btn btn-success">
+                                    <li class="fa fa-save"></li> Perbaharui
                                 </button>
                             </div>
                         </div>

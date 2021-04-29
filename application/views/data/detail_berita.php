@@ -53,7 +53,10 @@
                                 <br />
 
                                 <div class="text-center mtop20">
-                                    <a href="<?php echo base_url() ?>Berita/Edit/<?php echo md5($tampilkan_berita->id_berita) ?>/<?php echo $tampilkan_berita->id_berita ?>"> <button class="btn btn-warning btn-block btn-sm"> <li class="fa fa-edit"></li> Perbaharui</button></a>
+                                    <a href="<?php echo base_url() ?>Berita/Edit/<?php echo md5($tampilkan_berita->id_berita) ?>/<?php echo $tampilkan_berita->id_berita ?>"> <button class="btn btn-success btn-block"> <li class="fa fa-edit"></li> Perbaharui</button></a>
+                                </div>
+                                <div class="text-center mtop20">
+                                <a href="javascript:window.history.go(-1);"><button type="button" class="btn btn-warning btn-block"><li class="fa fa-undo"></li> Kembali</button></a>
                                 </div>
                             </div>
 

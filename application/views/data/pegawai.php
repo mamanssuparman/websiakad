@@ -8,7 +8,7 @@ if ($this->session->flashdata('pesan')) {
     <div class="col-md-12 col-sm-12  ">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Form Input Data Pegawai</h2>
+                <h2><?php echo $title_form ?></h2>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -202,10 +202,7 @@ if ($this->session->flashdata('pesan')) {
                     </div>
                     <div class="form-group row">
                         <div class="col-md-9 offset-md-3">
-                            <button type="button" class="btn btn-success">
-                                <li class="fa fa-undo"></li> Batal
-                            </button>
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-dark">
                                 <li class="fa fa-save"></li> Simpan
                             </button>
                         </div>
@@ -221,7 +218,7 @@ if ($this->session->flashdata('pesan')) {
     <div class="col-md-12 col-sm-12 ">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Button Example <small>Users</small></h2>
+                <h2><?php echo $title_data ?></h2>
 
                 <div class="clearfix"></div>
             </div>
@@ -237,9 +234,8 @@ if ($this->session->flashdata('pesan')) {
                                         <th>NAMA</th>
                                         <th>FOTO</th>
                                         <th>TANGGAL LAHIR</th>
-
                                         <th>STATUS TERBIT</th>
-                                        <th>AKSI</th>
+                                        <th>OPSI</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -253,17 +249,16 @@ if ($this->session->flashdata('pesan')) {
                                         <img class="img-responsive avatar-view" width="80" src="<?php echo base_url() ?>uploads/pegawai/<?php echo $tampilkan_pegawai->foto ?>" alt="Avatar" title="Change the avatar">
                                         <?php echo "</td>";
                                         echo "<td>$tampilkan_pegawai->tgl_lahir</td>";
-                                        echo "<td>";
-                                        if ($tampilkan_pegawai->status_terbit == "ya") {
-                                            echo "<button type='button' class='btn btn-round btn-primary bn-sm'>ON</button>";
+                                        echo "<td align='center'>";
+                                        if ($tampilkan_pegawai->status_terbit == 'tidak') {
+                                            echo "<input type='checkbox' class='js-switch' onChange='Aktif($tampilkan_pegawai->id_user)'/>";
                                         } else {
-                                            echo "<button type='button' class='btn btn-round btn-warning bn-sm'>OFF</button>";
+                                            echo "<input type='checkbox' class='js-switch' checked onChange='Nonaktif($tampilkan_pegawai->id_user)'/>";
                                         }
                                         echo "</td>"; ?>
-                                        <td><button class='btn btn-success btn-sm' title='Edit'>
-                                                <li class='fa fa-edit'></li>
-                                            </button> |
-                                            <a href="<?php echo base_url() ?>Pegawai/Detail/<?php echo md5($tampilkan_pegawai->id_user) ?>/<?php echo $tampilkan_pegawai->id_user ?>"><button class='btn btn-primary btn-sm' title='Detail'>
+                                        <td align="center">
+                                            <a href="<?php echo base_url() ?>Pegawai/Detail/<?php echo md5($tampilkan_pegawai->id_user) ?>/<?php echo $tampilkan_pegawai->id_user ?>">
+                                                <button class='btn btn-dark btn-sm' title='Detail'>
                                                     <li class='fa fa-list'></li>
                                                 </button>
                                             </a>
@@ -282,53 +277,31 @@ if ($this->session->flashdata('pesan')) {
 </div>
 <!-- Java Script -->
 <script>
-    function hapus(id) {
-        $('#form_hapus')[0].reset();
+    function Aktif(id) {
         $.ajax({
-            url: "<?php echo base_url('Profil/Get_id_profil_hapus') ?>/" + id,
+            url: "<?php echo base_url('Pegawai/Aktifkan') ?>/" + id,
             type: "GET",
             dataType: "JSON",
             success: function(data) {
-                $('[name="id_profil_hapus"]').val(data.id_profil);
-                $('#modal-default').modal('show');
+                location.reload();
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                alert('Gagal ambil ajax');
+                alert('Gagal Eksekusi');
+            }
+        });
+    }
+
+    function Nonaktif(id) {
+        $.ajax({
+            url: "<?php echo base_url('Pegawai/Nonaktif') ?>/" + id,
+            type: "GET",
+            dataType: "JSON",
+            success: function(data) {
+                location.reload();
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert('Gagal Eksekusi');
             }
         });
     }
 </script>
-<!-- Modal Hapus -->
-<div class="modal fade" id="modal-default">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">
-                    <li class="fa fa-warning"></li> Pesan.
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span></button>
-
-            </div>
-            <form action="<?php echo base_url() ?>Profil/hapus" method="POST" id="form_hapus">
-                <div class="modal-body">
-
-                    <input type="hidden" name="id_profil_hapus" value="" id="id_profil_hapus">
-                    <input type="hidden" class='form-control' name="<?php echo $this->security->get_csrf_token_name() ?>" value="<?php echo $this->security->get_csrf_hash() ?>">
-                    <p>Apakah anda yakin akan menghapus data tersebut &hellip;?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">
-                        <li class="fa fa-undo"></li> Batal
-                    </button>
-                    <button type="submit" class="btn btn-primary btn-sm">
-                        <li class="fa fa-check"></li> Ya
-                    </button>
-                </div>
-            </form>
-
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>

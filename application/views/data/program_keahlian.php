@@ -9,12 +9,12 @@ if ($this->session->flashdata('pesan')) {
     <div class="col-md-12 col-sm-12  ">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Form Input Data Program Keahlian</h2>
+                <h2><?= $title_form ?></h2>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
                 <br />
-                <form class="form-horizontal form-label-left" action="<?php echo base_url() ?>Program_keahlian/Save" method="POST">
+                <form class="form-horizontal form-label-left" action="<?php echo base_url() ?>Program-Keahlian/Save" method="POST">
 
                     <div class="form-group row">
                         <label class="control-label col-md-3 col-sm-3 col-xs-3">Nama Program Keahlian</label>
@@ -48,10 +48,7 @@ if ($this->session->flashdata('pesan')) {
                     <input type="hidden" class='form-control' name="<?php echo $this->security->get_csrf_token_name() ?>" value="<?php echo $this->security->get_csrf_hash() ?>">
                     <div class="form-group row">
                         <div class="col-md-9 offset-md-3">
-                            <button type="button" class="btn btn-success">
-                                <li class="fa fa-undo"></li> Batal
-                            </button>
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-success">
                                 <li class="fa fa-save"></li> Simpan
                             </button>
                         </div>
@@ -66,7 +63,7 @@ if ($this->session->flashdata('pesan')) {
     <div class="col-md-12 col-sm-12 ">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Button Example <small>Users</small></h2>
+                <h2><?= $title_data ?></h2>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -84,24 +81,24 @@ if ($this->session->flashdata('pesan')) {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                   <?php 
+                                    <?php
                                     foreach ($data_program_keahlian as $tampilkan_program_keahlian) {
                                         echo "<tr>";
-                                            echo "<td>$tampilkan_program_keahlian->id_program_keahlian</td>";
-                                            echo "<td>$tampilkan_program_keahlian->judul</td>";
-                                            echo "<td>$tampilkan_program_keahlian->deskripsi</td>";
-                                             // Pengkondisian Badge Status Terbit
-                                            echo "<td>";
-                                            if ($tampilkan_program_keahlian->status_terbit == 'ya') {
-                                                echo "<span class='badge badge-primary'>YA</span>";
-                                            } else {
-                                                echo "<span class='badge badge-warning pull-right'>TIDAK</span>";
-                                            }
-                                            echo "</td>";
-                                            echo "<td><a href='Program-Keahlian/Edit/$tampilkan_program_keahlian->id_program_keahlian'><button class='btn btn-primary btn-sm' title='Edit'><li class='fa fa-edit'></li></button></a> <button class='btn btn-danger btn-sm' title='Hapus' onClick='hapus($tampilkan_program_keahlian->id_program_keahlian)'><li class='fa fa-trash'></li></button></td>";
+                                        echo "<td>$tampilkan_program_keahlian->id_program_keahlian</td>";
+                                        echo "<td>$tampilkan_program_keahlian->judul</td>";
+                                        echo "<td>$tampilkan_program_keahlian->deskripsi</td>";
+                                        // Pengkondisian Badge Status Terbit
+                                        echo "<td>";
+                                        if ($tampilkan_program_keahlian->status_terbit == 'ya') {
+                                            echo "<input type='checkbox' class='js-switch' checked onChange='Nonaktif($tampilkan_program_keahlian->id_program_keahlian)'/>";
+                                        } else {
+                                            echo "<input type='checkbox' class='js-switch' onChange='Aktif($tampilkan_program_keahlian->id_program_keahlian)'/>";
+                                        }
+                                        echo "</td>";
+                                        echo "<td><a href=".base_url()."Program-Keahlian/Edit/".md5($tampilkan_program_keahlian->id_program_keahlian)."/".$tampilkan_program_keahlian->id_program_keahlian."><button class='btn btn-success btn-sm' title='Edit'><li class='fa fa-edit'></li></button></a> <button class='btn btn-danger btn-sm' title='Hapus' onClick='hapus($tampilkan_program_keahlian->id_program_keahlian)'><li class='fa fa-trash'></li></button></td>";
                                         echo "</tr>";
                                     }
-                                   ?>
+                                    ?>
                                 </tbody>
                             </table>
                         </div>
@@ -126,6 +123,34 @@ if ($this->session->flashdata('pesan')) {
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 alert('Gagal ambil ajax');
+            }
+        });
+    }
+
+    function Nonaktif(id) {
+        $.ajax({
+            url: "<?php echo base_url('Program-Keahlian/Nonaktif') ?>/" + id,
+            type: "GET",
+            dataType: "JSON",
+            success: function(data) {
+                location.reload();
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert('Gagal Aksi');
+            }
+        });
+    }
+
+    function Aktif(id) {
+        $.ajax({
+            url: "<?php echo base_url('Program-Keahlian/Aktif') ?>/" + id,
+            type: "GET",
+            dataType: "JSON",
+            success: function(data) {
+                location.reload();
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert('Gagal Aksi');
             }
         });
     }

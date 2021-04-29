@@ -1,0 +1,2 @@
+<h4><b>Lokasi</b></h4> <br>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2798.035225536257!2d108.63366215045963!3d-7.351721523686291!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6f7d197699ecd7%3A0x420255777005d790!2sSMK+Negeri+3+Banjar!5e0!3m2!1sid!2sid!4v1538052831268" width="auto" height="auto" frameborder="0" style="border:0" allowfullscreen></iframe>
